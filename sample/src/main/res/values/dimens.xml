@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Spacing-->
+    <dimen name="view_port_spacings_eight">8dp</dimen>
+    <dimen name="view_port_spacings_sixteen">16dp</dimen>
+    <dimen name="view_port_spacings_thirty_two">32dp</dimen>
+
+</resources>

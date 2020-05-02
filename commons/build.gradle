@@ -1,0 +1,55 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'maven-publish'
+
+android {
+    compileSdkVersion rootProject.ext.maxSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.maxSdkVersion
+
+        versionCode 1
+        versionName "1.0.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'consumer-rules.pro'
+        consumerProguardFiles 'consumer-rules.pro', 'proguard-android.txt'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            debuggable false
+            zipAlignEnabled false
+        }
+
+        debug {
+            zipAlignEnabled false
+            minifyEnabled false
+            debuggable true
+            testCoverageEnabled true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
+dependencies {
+    implementation rootProject.androidDependencies.kotlin
+    implementation rootProject.androidDependencies.appCompat
+    implementation rootProject.androidDependencies.recyclerview
+
+    testImplementation rootProject.testDependencies.junit
+    testImplementation rootProject.testDependencies.robolectric
+    testImplementation rootProject.testDependencies.mockK
+}
