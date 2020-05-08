@@ -95,10 +95,10 @@ afterEvaluate { project ->
                 }
 
                 repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                    authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+                    authentication(userName: System.getenv("NEXUS_USERNAME") != null ? System.getenv("NEXUS_USERNAME") : "", password: System.getenv("NEXUS_PASSWORD") != null ? System.getenv("NEXUS_PASSWORD") : "")
                 }
                 snapshotRepository(url:  "https://oss.sonatype.org/content/repositories/snapshots/") {
-                    authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+                    authentication(userName: System.getenv("NEXUS_USERNAME") != null ? System.getenv("NEXUS_USERNAME") : "", password: System.getenv("NEXUS_PASSWORD") != null ? System.getenv("NEXUS_PASSWORD") : "")
                 }
 
             }
