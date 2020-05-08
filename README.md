@@ -202,7 +202,7 @@ Labels on issues are managed by contributors, you don't have to worry about them
 License
 -------
 
-View Port is licensed under the [BSD 3-Clause "New" or "Revised" License](https://github.com/globocom/view-port/blob/master/LICENSE.md).
+View Port is licensed under the [MIT License](https://github.com/globocom/view-port/blob/develop/LICENSE.md).
 
 
 ## Sponsor
