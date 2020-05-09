@@ -1,4 +1,4 @@
-# View Port Android [![Build Status](https://img.shields.io/static/v1?label=viewport%20android&message=v1.0.0&color=blue)](https://app.bitrise.io/app/c35ffcea29b2e8a6)
+# View Port Android 
 
 Viewport-Android is a library that aims to track items from a Recycler View, which remain visible in a given region on the screen (view port), for a minimum time of 250 milliseconds.
 
@@ -33,7 +33,7 @@ In the same way, we only stop counting time after a visibility pulse passes thro
 
 
 <a name="view-port-mobile"></a>
-# View Port Mobile
+# View Port Mobile [![Build Status](https://img.shields.io/static/v1?label=viewport%mobile&message=v1.0.0&color=green)](https://app.bitrise.io/app/c35ffcea29b2e8a6)
 The library uses the concept of `custom views` in the implementation of its functionalities. Therefore, it is necessary that these views are incorporated into the XML files of your project layout.
 
 #### Step 1: Install the SDK
@@ -89,7 +89,7 @@ view_port_recycler_view.apply {
 
 
 <a name="view-port-tv"></a>
-# View Port TV
+# View Port TV [![Build Status](https://img.shields.io/static/v1?label=viewport%tv&message=v1.0.0&color=green)](https://app.bitrise.io/app/c35ffcea29b2e8a6)
 The library uses the concept of `custom views` in the implementation of its functionalities. Therefore, it is necessary that these views are incorporated into the XML files of your project layout.
 
 The library acts as an extension to [Android Leanback][2]. For this reason, we provide two custom views that should be used according to the desired orientation:
