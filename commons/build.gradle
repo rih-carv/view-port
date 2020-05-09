@@ -35,6 +35,22 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            storeFile file(STORE_FILE_RELEASE)
+            keyAlias KEY_ALIAS_RELEASE
+            storePassword STORE_PASSWORD_RELEASE
+            keyPassword KEY_PASSWORD_RELEASE
+        }
+
+        debug {
+            storeFile file(STORE_FILE_DEBUG)
+            keyAlias KEY_ALIAS_DEBUG
+            storePassword STORE_PASSWORD_DEBUG
+            keyPassword KEY_PASSWORD_DEBUG
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -64,7 +80,7 @@ afterEvaluate { project ->
                 beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
                 pom.groupId =  POM_GROUP_ID
-                pom.artifactId = 'commons'
+                pom.artifactId = 'viewport-commons'
                 pom.version = android.defaultConfig.versionName
                 pom.project {
                     name =  POM_NAME
@@ -95,10 +111,16 @@ afterEvaluate { project ->
                 }
 
                 repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                    authentication(userName: System.getenv("NEXUS_USERNAME") != null ? System.getenv("NEXUS_USERNAME") : "", password: System.getenv("NEXUS_PASSWORD") != null ? System.getenv("NEXUS_PASSWORD") : "")
+                    authentication(
+                            userName: "",
+                            password: ""
+                    )
                 }
                 snapshotRepository(url:  "https://oss.sonatype.org/content/repositories/snapshots/") {
-                    authentication(userName: System.getenv("NEXUS_USERNAME") != null ? System.getenv("NEXUS_USERNAME") : "", password: System.getenv("NEXUS_PASSWORD") != null ? System.getenv("NEXUS_PASSWORD") : "")
+                    authentication(
+                            userName: "",
+                            password: ""
+                    )
                 }
 
             }

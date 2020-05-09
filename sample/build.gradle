@@ -32,6 +32,22 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            storeFile file(STORE_FILE_RELEASE)
+            keyAlias KEY_ALIAS_RELEASE
+            storePassword STORE_PASSWORD_RELEASE
+            keyPassword KEY_PASSWORD_RELEASE
+        }
+
+        debug {
+            storeFile file(STORE_FILE_DEBUG)
+            keyAlias KEY_ALIAS_DEBUG
+            storePassword STORE_PASSWORD_DEBUG
+            keyPassword KEY_PASSWORD_DEBUG
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
