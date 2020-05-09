@@ -40,11 +40,11 @@ Installing the View Port Mobile is simple if you're familiar with using external
 
 ```groovy
 repositories {
-    maven { url "" }
+   mavenCentral()
 }
 
 dependencies {
-    implementation 'com.github.globocom.viewport:mobile:1.0.0'
+    implementation 'com.github.globocom:viewport-mobile:1.0.0'
 }
 ````
 
@@ -102,11 +102,11 @@ Installing the View Port TV SDK is simple if you're familiar with using external
 
 ```groovy
 repositories {
-    maven { url "" }
+   mavenCentral()
 }
 
 dependencies {
-    implementation 'com.github.globocom.viewport:tv:1.0.0'
+    implementation 'com.github.globocom:viewport-tv:1.0.0'
 }
 ````
 
