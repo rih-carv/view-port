@@ -46,7 +46,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.viewport:mobile:1.0.0'
+    implementation 'com.github.globocom.viewport:mobile:1.0.0'
 }
 ````
 
@@ -54,8 +54,8 @@ dependencies {
 #### Step 2: Configure ProGuard to shrink code and resources
 When you build your APK with minifyEnabled true, add the following line to the module's ProGuard rules file.
 ```gradle
--keep class com.viewport.mobile.** { *; }
--keep class com.viewport.commons.** { *; }
+-keep class com.github.globocom.viewport.mobile.** { *; }
+-keep class com.github.globocom.viewport.commons.** { *; }
 ```
 
 
@@ -63,7 +63,7 @@ When you build your APK with minifyEnabled true, add the following line to the m
 To initialize the sdk it is necessary to add the ViewPort Mobile in the xml:
 
 ```xml
-<com.viewport.mobile.ViewPortRecyclerView
+<com.github.globocom.viewport.mobile.ViewPortRecyclerView
     android:id="@+id/view_port_recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -108,7 +108,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.viewport:tv:1.0.0'
+    implementation 'com.github.globocom.viewport:tv:1.0.0'
 }
 ````
 
@@ -116,8 +116,8 @@ dependencies {
 #### Step 2: Configure ProGuard to shrink code and resources
 When you build your APK with minifyEnabled true, add the following line to the module's ProGuard rules file.
 ```gradle
--keep class com.viewport.tv.** { *; }
--keep class com.viewport.commons.** { *; }
+-keep class com.github.globocom.viewport.tv.** { *; }
+-keep class com.github.globocom.viewport.commons.** { *; }
 ```
 
 
@@ -125,7 +125,7 @@ When you build your APK with minifyEnabled true, add the following line to the m
 To initialize the sdk it is necessary to add the ViewPort TV in the xml:
 
 ```xml
-<com.viewport.tv.ViewPortHorizontalGridView
+<com.github.globocom.viewport.tv.ViewPortHorizontalGridView
     android:id="@+id/view_port_horizontal_grid_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -135,7 +135,7 @@ To initialize the sdk it is necessary to add the ViewPort TV in the xml:
 Or 
 
 ```xml
-<com.viewport.tv.ViewPortVerticalGridView
+<com.github.globocom.viewport.tv.ViewPortVerticalGridView
     android:id="@+id/view_port_vertical_grid_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

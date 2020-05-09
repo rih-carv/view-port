@@ -1,4 +1,4 @@
-package com.viewport.commons
+package com.github.globocom.viewport.commons
 
 import android.os.Parcel
 import android.os.Parcelable

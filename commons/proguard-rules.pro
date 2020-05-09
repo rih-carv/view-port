@@ -1,2 +1,2 @@
 ## Commons
--keep class com.viewport.commons.** { *; }
+-keep class com.github.globocom.viewport.commons.** { *; }

@@ -1,2 +1,2 @@
 ## TV
--keep class com.viewport.tv.** { *; }
+-keep class com.github.globocom.viewport.tv.** { *; }

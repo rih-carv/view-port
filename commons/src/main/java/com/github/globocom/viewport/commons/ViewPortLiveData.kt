@@ -1,4 +1,4 @@
-package com.viewport.commons
+package com.github.globocom.viewport.commons
 
 import androidx.annotation.MainThread
 import androidx.collection.ArraySet

@@ -1,4 +1,4 @@
-package com.viewport.tv
+package com.github.globocom.viewport.tv
 
 import android.content.Context
 import android.os.Bundle
@@ -9,11 +9,11 @@ import androidx.leanback.widget.OnChildViewHolderSelectedListener
 import androidx.leanback.widget.VerticalGridView
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
-import com.viewport.commons.ViewPortGridViewHelper
-import com.viewport.commons.ViewPortLiveData
-import com.viewport.commons.ViewPortManager
+import com.github.globocom.viewport.commons.ViewPortGridViewHelper
+import com.github.globocom.viewport.commons.ViewPortLiveData
+import com.github.globocom.viewport.commons.ViewPortManager
 
-class ViewPortHorizontalGridView @JvmOverloads constructor(
+class ViewPortVerticalGridView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -40,7 +40,7 @@ class ViewPortHorizontalGridView @JvmOverloads constructor(
         object : OnChildViewHolderSelectedListener() {
             override fun onChildViewHolderSelected(
                 parent: RecyclerView,
-                child: RecyclerView.ViewHolder,
+                child: ViewHolder,
                 position: Int,
                 subposition: Int
             ) {
@@ -58,13 +58,11 @@ class ViewPortHorizontalGridView @JvmOverloads constructor(
         }
     }
 
-
     /**
      * [MutableLiveData] to be manipulated in that class. Client should access it's value by using
      * [viewedItemsLiveData].
      */
     val viewedItemsLiveData = ViewPortLiveData<List<Int>>()
-
 
     /**
      * Client should set this value with a [LifecycleOwner] to pause/return sending values by
@@ -93,10 +91,9 @@ class ViewPortHorizontalGridView @JvmOverloads constructor(
             viewPortManager?.startLib()
         }
 
-
     override fun onChildAttachedToWindow(child: View) {
         super.onChildAttachedToWindow(child)
-        windowAlignment = VerticalGridView.WINDOW_ALIGN_BOTH_EDGE
+        windowAlignment = WINDOW_ALIGN_BOTH_EDGE
     }
 
     override fun onChildDetachedFromWindow(child: View) {
@@ -119,7 +116,7 @@ class ViewPortHorizontalGridView @JvmOverloads constructor(
      * [Lifecycle.Event.ON_PAUSE] client events are triggered.
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    private fun onPause() {
+    internal fun onPause() {
         viewPortManager?.pauseLib()
     }
 
@@ -127,7 +124,7 @@ class ViewPortHorizontalGridView @JvmOverloads constructor(
      * [Lifecycle.Event.ON_RESUME] client events are triggered.
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    private fun onResume() {
+    internal fun onResume() {
         viewPortManager?.resumeLib()
     }
 
@@ -135,7 +132,7 @@ class ViewPortHorizontalGridView @JvmOverloads constructor(
      * [Lifecycle.Event.ON_DESTROY] client events are triggered.
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    private fun onDestroy() {
+    internal fun onDestroy() {
         viewPortManager?.stopLib()
         lifecycleOwner?.lifecycle?.removeObserver(this)
         removeOnChildViewHolderSelectedListener(childSelectedListener)

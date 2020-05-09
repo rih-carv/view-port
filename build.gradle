@@ -40,7 +40,7 @@ ext {
             recyclerview    : "androidx.recyclerview:recyclerview:$recycler_view_version",
             constraintlayout: "androidx.constraintlayout:constraintlayout:$constraint_version",
             leanback        : "androidx.leanback:leanback:$support_version",
-            commons         : "com.viewport:commons:$commons_version",
+            commons         : "com.github.globocom.viewport:commons:$commons_version",
     ]
 
     testDependencies = [

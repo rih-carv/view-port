@@ -1,2 +1,2 @@
 ## Mobile
--keep class com.viewport.mobile.** { *; }
+-keep class com.github.globocom.viewport.mobile.** { *; }

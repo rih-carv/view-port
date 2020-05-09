@@ -1,4 +1,4 @@
-package com.viewport.mobile
+package com.github.globocom.viewport.mobile
 
 import android.content.Context
 import android.os.Handler
@@ -8,9 +8,9 @@ import androidx.lifecycle.*
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.viewport.commons.ViewPortLiveData
-import com.viewport.commons.ViewPortManager
-import com.viewport.commons.ViewPortSavedState
+import com.github.globocom.viewport.commons.ViewPortLiveData
+import com.github.globocom.viewport.commons.ViewPortManager
+import com.github.globocom.viewport.commons.ViewPortSavedState
 
 class ViewPortRecyclerView @JvmOverloads constructor(
     context: Context,

@@ -1,4 +1,4 @@
-package com.viewport.commons
+package com.github.globocom.viewport.commons
 
 import android.os.CountDownTimer
 import android.os.Parcelable
@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.viewport.commons.ViewPortManager.Companion.HEART_BEAT_TIME
+import com.github.globocom.viewport.commons.ViewPortManager.Companion.HEART_BEAT_TIME
 
 /**
  * A Manager to listen to elements of a [RecyclerView] that remains visible in some view port

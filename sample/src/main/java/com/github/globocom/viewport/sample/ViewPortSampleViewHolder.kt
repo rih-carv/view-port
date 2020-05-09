@@ -1,4 +1,4 @@
-package com.viewport.sample
+package com.github.globocom.viewport.sample
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
