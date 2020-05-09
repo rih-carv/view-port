@@ -1,0 +1,155 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'maven-publish'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+android {
+    compileSdkVersion rootProject.ext.maxSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.maxSdkVersion
+
+        versionCode 1
+        versionName "1.0.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'consumer-rules.pro'
+        consumerProguardFiles 'consumer-rules.pro','proguard-android.txt'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            debuggable false
+            zipAlignEnabled false
+        }
+
+        debug {
+            zipAlignEnabled false
+            minifyEnabled false
+            debuggable true
+            testCoverageEnabled true
+        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(STORE_FILE_RELEASE)
+            keyAlias KEY_ALIAS_RELEASE
+            storePassword STORE_PASSWORD_RELEASE
+            keyPassword KEY_PASSWORD_RELEASE
+        }
+
+        debug {
+            storeFile file(STORE_FILE_DEBUG)
+            keyAlias KEY_ALIAS_DEBUG
+            storePassword STORE_PASSWORD_DEBUG
+            keyPassword KEY_PASSWORD_DEBUG
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
+dependencies {
+    implementation rootProject.androidDependencies.kotlin
+    implementation rootProject.androidDependencies.appCompat
+    implementation rootProject.androidDependencies.recyclerview
+    implementation rootProject.androidDependencies.commons
+
+    testImplementation rootProject.testDependencies.junit
+    testImplementation rootProject.testDependencies.robolectric
+    testImplementation rootProject.testDependencies.mockK
+}
+
+
+uploadArchives.dependsOn(assemble)
+
+afterEvaluate { project ->
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                pom.groupId =  POM_GROUP_ID
+                pom.artifactId = 'viewport-mobile'
+                pom.version = android.defaultConfig.versionName
+                pom.project {
+                    name =  POM_NAME
+                    packaging =  POM_PACKAGING
+                    description = POM_DESCRIPTION
+                    url=  POM_URL
+
+                    scm {
+                        url=  POM_SCM_URL
+                        connection = POM_SCM_CONNECTION
+                        developerConnection = POM_SCM_DEV_CONNECTION
+                    }
+
+                    licenses {
+                        license {
+                            name=  POM_LICENCE_NAME
+                            url = POM_LICENCE_URL
+                            distribution = POM_LICENCE_DIST
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id = POM_DEVELOPER_ID
+                            name = POM_DEVELOPER_NAME
+                        }
+                    }
+                }
+
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    authentication(
+                            userName: "",
+                            password: ""
+                    )
+                }
+                snapshotRepository(url:  "https://oss.sonatype.org/content/repositories/snapshots/") {
+                    authentication(
+                            userName: "",
+                            password: ""
+                    )
+                }
+            }
+        }
+    }
+
+    signing {
+        required { android.defaultConfig.versionName.contains("snapshot") == false && gradle.taskGraph.hasTask("uploadArchives") }
+        sign configurations.archives
+    }
+
+    task androidJavadocs(type: Javadoc) {
+        source = android.sourceSets.main.java.srcDirs
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    }
+
+    task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+        classifier = 'javadoc'
+        from androidJavadocs.destinationDir
+    }
+
+    task androidSourcesJar(type: Jar) {
+        classifier = 'sources'
+        from android.sourceSets.main.java.sourceFiles
+    }
+
+    artifacts {
+        archives androidSourcesJar
+    }
+}

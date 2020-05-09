@@ -1,0 +1,6 @@
+rootProject.name = 'view-port-android'
+
+include ':sample'
+include ':commons'
+include ':library-mobile'
+include ':library-tv'
