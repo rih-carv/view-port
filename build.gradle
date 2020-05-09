@@ -32,6 +32,8 @@ ext {
     robolectric_version = '4.3.1'
     support_version = '1.0.0'
     commons_version = '1.0.0'
+    viewport_mobile_version = '1.0.0'
+    viewport_tv_version = '1.0.0'
     mockK_version = '1.9.2'
 
     androidDependencies = [
@@ -41,6 +43,8 @@ ext {
             constraintlayout: "androidx.constraintlayout:constraintlayout:$constraint_version",
             leanback        : "androidx.leanback:leanback:$support_version",
             commons         : "com.github.globocom:viewport-commons:$commons_version",
+            viewportmobile  : "com.github.globocom:viewport-mobile:$viewport_mobile_version",
+            viewporttv      : "com.github.globocom:viewport-tv:$viewport_tv_version",
     ]
 
     testDependencies = [
