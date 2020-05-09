@@ -64,8 +64,7 @@ To initialize the sdk it is necessary to add the ViewPort Mobile in the xml:
 <com.github.globocom.viewport.mobile.ViewPortRecyclerView
     android:id="@+id/view_port_recycler_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-/>
+    android:layout_height="match_parent"/>
 ```
 
 #### Step 4: Setup SDK
@@ -126,8 +125,7 @@ To initialize the sdk it is necessary to add the ViewPort TV in the xml:
 <com.github.globocom.viewport.tv.ViewPortHorizontalGridView
     android:id="@+id/view_port_horizontal_grid_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-/>
+    android:layout_height="match_parent"/>
 ```
 
 Or 
@@ -136,8 +134,7 @@ Or
 <com.github.globocom.viewport.tv.ViewPortVerticalGridView
     android:id="@+id/view_port_vertical_grid_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-/>
+    android:layout_height="match_parent"/>
 ```
 
 #### Step 4: Setup SDK
