@@ -1,4 +1,4 @@
-# View Port Android [![Build Status](https://img.shields.io/static/v1?label=viewport%20android&message=v1.0.0&color=blue)](https://app.bitrise.io/app/c35ffcea29b2e8a6)
+# View Port Android 
 
 Viewport-Android is a library that aims to track items from a Recycler View, which remain visible in a given region on the screen (view port), for a minimum time of 250 milliseconds.
 
@@ -9,9 +9,7 @@ Viewport-Android is a library that aims to track items from a Recycler View, whi
  - **[View Port TV](#view-port-tv)**
  
  - **[Hitting Boxes](#hittingboxes)**
- 
- - **[Minimum Stay](#minimumstay)**
- 
+  
  - **[Change Log](#changelog)**
  
  - **[Getting Help](#help)**
@@ -33,7 +31,7 @@ In the same way, we only stop counting time after a visibility pulse passes thro
 
 
 <a name="view-port-mobile"></a>
-# View Port Mobile
+# View Port Mobile [![Build Status](https://img.shields.io/static/v1?label=viewport-mobile&message=v1.0.0&color=green)](https://app.bitrise.io/app/c35ffcea29b2e8a6)
 The library uses the concept of `custom views` in the implementation of its functionalities. Therefore, it is necessary that these views are incorporated into the XML files of your project layout.
 
 #### Step 1: Install the SDK
@@ -42,11 +40,11 @@ Installing the View Port Mobile is simple if you're familiar with using external
 
 ```groovy
 repositories {
-    maven { url "" }
+   mavenCentral()
 }
 
 dependencies {
-    implementation 'com.github.globocom.viewport:mobile:1.0.0'
+    implementation 'com.github.globocom:viewport-mobile:1.0.0'
 }
 ````
 
@@ -66,8 +64,7 @@ To initialize the sdk it is necessary to add the ViewPort Mobile in the xml:
 <com.github.globocom.viewport.mobile.ViewPortRecyclerView
     android:id="@+id/view_port_recycler_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-/>
+    android:layout_height="match_parent"/>
 ```
 
 #### Step 4: Setup SDK
@@ -89,7 +86,7 @@ view_port_recycler_view.apply {
 
 
 <a name="view-port-tv"></a>
-# View Port TV
+# View Port TV [![Build Status](https://img.shields.io/static/v1?label=viewport-tv&message=v1.0.0&color=green)](https://app.bitrise.io/app/c35ffcea29b2e8a6)
 The library uses the concept of `custom views` in the implementation of its functionalities. Therefore, it is necessary that these views are incorporated into the XML files of your project layout.
 
 The library acts as an extension to [Android Leanback][2]. For this reason, we provide two custom views that should be used according to the desired orientation:
@@ -104,11 +101,11 @@ Installing the View Port TV SDK is simple if you're familiar with using external
 
 ```groovy
 repositories {
-    maven { url "" }
+   mavenCentral()
 }
 
 dependencies {
-    implementation 'com.github.globocom.viewport:tv:1.0.0'
+    implementation 'com.github.globocom:viewport-tv:1.0.0'
 }
 ````
 
@@ -128,8 +125,7 @@ To initialize the sdk it is necessary to add the ViewPort TV in the xml:
 <com.github.globocom.viewport.tv.ViewPortHorizontalGridView
     android:id="@+id/view_port_horizontal_grid_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-/>
+    android:layout_height="match_parent"/>
 ```
 
 Or 
@@ -138,8 +134,7 @@ Or
 <com.github.globocom.viewport.tv.ViewPortVerticalGridView
     android:id="@+id/view_port_vertical_grid_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-/>
+    android:layout_height="match_parent"/>
 ```
 
 #### Step 4: Setup SDK
@@ -202,7 +197,7 @@ Labels on issues are managed by contributors, you don't have to worry about them
 License
 -------
 
-View Port is licensed under the [MIT License](https://github.com/globocom/view-port/blob/develop/LICENSE.md).
+View Port is licensed under the [MIT License](https://github.com/globocom/view-port/blob/master/LICENSE.md).
 
 
 ## Sponsor
