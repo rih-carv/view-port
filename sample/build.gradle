@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.github.globocom.viewport.sample"
-        minSdkVersion rootProject.ext.minSdkVersion
+        minSdkVersion rootProject.ext.minMobileSdkVersion
         targetSdkVersion rootProject.ext.maxSdkVersion
 
         versionCode 1
