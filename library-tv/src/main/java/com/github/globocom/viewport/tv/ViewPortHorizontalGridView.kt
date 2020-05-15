@@ -13,7 +13,7 @@ import com.github.globocom.viewport.commons.ViewPortGridViewHelper
 import com.github.globocom.viewport.commons.ViewPortLiveData
 import com.github.globocom.viewport.commons.ViewPortManager
 
-class ViewPortHorizontalGridView @JvmOverloads constructor(
+open class ViewPortHorizontalGridView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0

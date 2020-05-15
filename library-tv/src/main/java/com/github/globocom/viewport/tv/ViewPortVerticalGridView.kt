@@ -13,7 +13,7 @@ import com.github.globocom.viewport.commons.ViewPortGridViewHelper
 import com.github.globocom.viewport.commons.ViewPortLiveData
 import com.github.globocom.viewport.commons.ViewPortManager
 
-class ViewPortVerticalGridView @JvmOverloads constructor(
+open class ViewPortVerticalGridView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0

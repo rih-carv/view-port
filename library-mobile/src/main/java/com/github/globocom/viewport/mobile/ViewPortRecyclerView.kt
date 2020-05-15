@@ -12,7 +12,7 @@ import com.github.globocom.viewport.commons.ViewPortLiveData
 import com.github.globocom.viewport.commons.ViewPortManager
 import com.github.globocom.viewport.commons.ViewPortSavedState
 
-class ViewPortRecyclerView @JvmOverloads constructor(
+open class ViewPortRecyclerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
