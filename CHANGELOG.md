@@ -14,3 +14,7 @@ Change Log
 ## Version 1.0.2
 
  * Update min sdk version to 16 view port mobile
+
+## Version 1.0.3
+
+ * Adjust ViewPortHorizontalGridView to extend HorizontalGridView

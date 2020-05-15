@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
+import androidx.leanback.widget.HorizontalGridView
 import androidx.leanback.widget.OnChildViewHolderSelectedListener
 import androidx.leanback.widget.VerticalGridView
 import androidx.lifecycle.*
@@ -17,7 +18,7 @@ open class ViewPortHorizontalGridView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : VerticalGridView(context, attrs, defStyleAttr), LifecycleObserver {
+) : HorizontalGridView(context, attrs, defStyleAttr), LifecycleObserver {
     init {
         isSaveEnabled = true
     }
