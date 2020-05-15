@@ -10,3 +10,7 @@ Change Log
 ## Version 1.0.1
 
  * Change class open
+
+## Version 1.0.2
+
+ * Update min sdk version to 16 view port mobile
