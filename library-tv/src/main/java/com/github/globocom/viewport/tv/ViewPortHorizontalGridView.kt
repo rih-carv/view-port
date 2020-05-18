@@ -1,7 +1,6 @@
 package com.github.globocom.viewport.tv
 
 import android.content.Context
-import android.os.Bundle
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
@@ -13,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.globocom.viewport.commons.ViewPortGridViewHelper
 import com.github.globocom.viewport.commons.ViewPortLiveData
 import com.github.globocom.viewport.commons.ViewPortManager
+import com.github.globocom.viewport.commons.ViewPortSavedState
 
 open class ViewPortHorizontalGridView @JvmOverloads constructor(
     context: Context,
@@ -21,10 +21,6 @@ open class ViewPortHorizontalGridView @JvmOverloads constructor(
 ) : HorizontalGridView(context, attrs, defStyleAttr), LifecycleObserver {
     init {
         isSaveEnabled = true
-    }
-
-    companion object {
-        private const val INSTANCE_STATE_KEY = "instanceState"
     }
 
     private var viewPortManager: ViewPortManager? = null
@@ -100,20 +96,20 @@ open class ViewPortHorizontalGridView @JvmOverloads constructor(
         windowAlignment = VerticalGridView.WINDOW_ALIGN_BOTH_EDGE
     }
 
-    override fun onChildDetachedFromWindow(child: View) {
-        super.onChildDetachedFromWindow(child)
-        super.onDetachedFromWindow()
-    }
+    override fun onSaveInstanceState(): Parcelable? {
+        val superState = super.onSaveInstanceState()
+        val myState = ViewPortSavedState(superState)
 
-    override fun onSaveInstanceState(): Parcelable? = Bundle().apply {
-        putParcelable(INSTANCE_STATE_KEY, super.onSaveInstanceState())
-
+        return viewPortManager?.onSaveInstanceState(myState)
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
-        super.onRestoreInstanceState((state as Bundle).apply {
+        val savedState = state as? ViewPortSavedState
+        super.onRestoreInstanceState(savedState?.superState)
 
-        }.getParcelable(INSTANCE_STATE_KEY))
+        viewPortManager?.onRestoreInstanceState(savedState)
+
+        requestLayout()
     }
 
     /**

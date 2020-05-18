@@ -130,10 +130,9 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
         return viewPortManager?.onSaveInstanceState(myState)
     }
 
-    override fun onRestoreInstanceState(state: Parcelable) {
-        val savedState = state as ViewPortSavedState
-
-        super.onRestoreInstanceState(savedState.superState)
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        val savedState = state as? ViewPortSavedState
+        super.onRestoreInstanceState(savedState?.superState)
 
         viewPortManager?.onRestoreInstanceState(savedState)
 

@@ -86,7 +86,7 @@ view_port_recycler_view.apply {
 
 
 <a name="view-port-tv"></a>
-# View Port TV [![Build Status](https://img.shields.io/static/v1?label=viewport-tv&message=v1.0.2&color=green)](https://app.bitrise.io/app/c35ffcea29b2e8a6)
+# View Port TV [![Build Status](https://img.shields.io/static/v1?label=viewport-tv&message=v1.0.5&color=green)](https://app.bitrise.io/app/c35ffcea29b2e8a6)
 The library uses the concept of `custom views` in the implementation of its functionalities. Therefore, it is necessary that these views are incorporated into the XML files of your project layout.
 
 The library acts as an extension to [Android Leanback][2]. For this reason, we provide two custom views that should be used according to the desired orientation:
@@ -105,7 +105,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.globocom:viewport-tv:1.0.2'
+    implementation 'com.github.globocom:viewport-tv:1.0.5'
 }
 ````
 

@@ -18,3 +18,11 @@ Change Log
 ## Version 1.0.3
 
  * Adjust ViewPortHorizontalGridView to extend HorizontalGridView
+
+## Version 1.0.4
+
+ * Adjust saved state manager receive Parcelable null
+
+## Version 1.0.5
+
+ * Remove call child from window unused

@@ -73,7 +73,6 @@ class ViewPortManager(
             }
         }
 
-    // TODO: Document.
     private val firstAndLastVisibleItemsObserver = Observer<Pair<Int, Int>> {
         val firstItemPosition = it.first
         val lastItemPosition = it.second
@@ -102,13 +101,14 @@ class ViewPortManager(
         return myState
     }
 
-    fun onRestoreInstanceState(state: Parcelable) {
-        val savedState = state as ViewPortSavedState
-        this.isHearBeatStarted = savedState.isHearBeatStarted
-        this.isLibStarted = savedState.isLibStarted
-        this.currentVisibleItemsList = savedState.currentVisibleItemsList
-        this.viewedItemsFinalList = savedState.viewedItemsFinalList
-        this.oldItemsList = savedState.oldItemsList
+    fun onRestoreInstanceState(state: Parcelable?) {
+        (state as? ViewPortSavedState)?.let {
+            this.isHearBeatStarted = it.isHearBeatStarted
+            this.isLibStarted = it.isLibStarted
+            this.currentVisibleItemsList = it.currentVisibleItemsList
+            this.viewedItemsFinalList = it.viewedItemsFinalList
+            this.oldItemsList = it.oldItemsList
+        }
     }
 
     private fun stopHeartBeat() {
