@@ -31,7 +31,7 @@ In the same way, we only stop counting time after a visibility pulse passes thro
 
 
 <a name="view-port-mobile"></a>
-# View Port Mobile [![Build Status](https://img.shields.io/static/v1?label=viewport-mobile&message=v1.0.3&color=green)](https://app.bitrise.io/app/c35ffcea29b2e8a6)
+# View Port Mobile [![Build Status](https://img.shields.io/static/v1?label=viewport-mobile&message=v1.0.4&color=green)](https://app.bitrise.io/app/c35ffcea29b2e8a6)
 The library uses the concept of `custom views` in the implementation of its functionalities. Therefore, it is necessary that these views are incorporated into the XML files of your project layout.
 
 #### Step 1: Install the SDK
@@ -44,7 +44,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.globocom:viewport-mobile:1.0.3'
+    implementation 'com.github.globocom:viewport-mobile:1.0.4'
 }
 ````
 
