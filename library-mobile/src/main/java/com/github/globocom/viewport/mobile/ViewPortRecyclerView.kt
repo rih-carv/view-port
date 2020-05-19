@@ -5,7 +5,6 @@ import android.os.Handler
 import android.os.Parcelable
 import android.util.AttributeSet
 import androidx.lifecycle.*
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.globocom.viewport.commons.ViewPortLiveData
@@ -18,11 +17,7 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : RecyclerView(context, attrs, defStyleAttr), LifecycleObserver {
     init {
-        if (layoutManager is LinearLayoutManager || layoutManager is GridLayoutManager) {
-            isSaveEnabled = true
-        } else {
-            throw ExceptionInInitializerError("Recycler View must have a LinearLayoutManager or GridLayoutManager configured.")
-        }
+        isSaveEnabled = true
     }
 
     private companion object {
