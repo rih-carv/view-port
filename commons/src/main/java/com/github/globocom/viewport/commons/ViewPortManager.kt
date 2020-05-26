@@ -30,7 +30,6 @@ class ViewPortManager(
     }
 
     private var currentVisibleItemsList = mutableListOf<Int>()
-    private var viewedItemsFinalList = mutableListOf<Int>()
     private var oldItemsList = mutableListOf<Int>()
 
     private var isHearBeatStarted = false
@@ -57,18 +56,14 @@ class ViewPortManager(
                 // Retrieves elements that continues visible.
                 val continueVisibleItemsList =
                     oldItemsList.intersect(currentVisibleItemsList).toList()
-
-                // Updates oldItemsList.
+//
+//                // Updates oldItemsList.
                 oldItemsList = currentVisibleItemsList
-
-                // If there are 'continue visible' items since last pulse, updates final list
-                // avoiding repeat already viewed items.
+//
+//                // If there are 'continue visible' items since last pulse, updates final list
+//                // avoiding repeat already viewed items.
                 if (!continueVisibleItemsList.none()) {
-                    viewedItemsFinalList =
-                        viewedItemsFinalList.union(continueVisibleItemsList).sorted()
-                            .toMutableList()
-
-                    viewPortLiveData.value = viewedItemsFinalList
+                    viewPortLiveData.value = continueVisibleItemsList
                 }
             }
         }
@@ -96,7 +91,6 @@ class ViewPortManager(
         myState.isHearBeatStarted = this.isHearBeatStarted
         myState.isLibStarted = this.isLibStarted
         myState.currentVisibleItemsList = this.currentVisibleItemsList
-        myState.viewedItemsFinalList = this.viewedItemsFinalList
         myState.oldItemsList = this.oldItemsList
         return myState
     }
@@ -106,7 +100,6 @@ class ViewPortManager(
             this.isHearBeatStarted = it.isHearBeatStarted
             this.isLibStarted = it.isLibStarted
             this.currentVisibleItemsList = it.currentVisibleItemsList
-            this.viewedItemsFinalList = it.viewedItemsFinalList
             this.oldItemsList = it.oldItemsList
         }
     }
@@ -137,7 +130,6 @@ class ViewPortManager(
 
     fun stopLib() {
         pauseLib()
-        viewedItemsFinalList.clear()
         oldItemsList.clear()
         currentVisibleItemsList.clear()
     }
