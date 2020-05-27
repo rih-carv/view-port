@@ -26,3 +26,7 @@ Change Log
 ## Version 1.0.5
 
  * Remove call child from window unused
+
+## Version 1.1.0
+
+ * Sending only those being show 
