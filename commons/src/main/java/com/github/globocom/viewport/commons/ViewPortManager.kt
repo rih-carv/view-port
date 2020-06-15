@@ -62,7 +62,8 @@ class ViewPortManager(
 //
 //                // If there are 'continue visible' items since last pulse, updates final list
 //                // avoiding repeat already viewed items.
-                if (!continueVisibleItemsList.none()) {
+                val valueWillChange = viewPortLiveData.value != continueVisibleItemsList
+                if (!continueVisibleItemsList.none() && valueWillChange) {
                     viewPortLiveData.value = continueVisibleItemsList
                 }
             }
