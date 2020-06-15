@@ -36,6 +36,7 @@ ext {
     viewport_mobile_version = '1.1.0'
     viewport_tv_version = '1.1.0'
     mockK_version = '1.9.2'
+    archVersion = '2.2.5'
 
     androidDependencies = [
             kotlin          : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
@@ -51,7 +52,8 @@ ext {
     testDependencies = [
             junit      : "androidx.test.ext:junit:$jUnit_version",
             robolectric: "org.robolectric:robolectric:$robolectric_version",
-            mockK      : "io.mockk:mockk:$mockK_version"
+            mockK      : "io.mockk:mockk:$mockK_version",
+            arch       : "android.arch.core:core-testing:$archVersion"
     ]
 }
 

@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.github.globocom.viewport.commons.LiveDataTransformations.filteringOldItems
 import com.github.globocom.viewport.commons.ViewPortManager.Companion.HEART_BEAT_TIME
 
 /**
@@ -85,7 +86,7 @@ class ViewPortManager(
     /**
      * Protected [LiveData] to avoid client from overrides this [ViewPortLiveData].
      */
-    val viewedItemsLiveData: LiveData<List<Int>> get() = viewPortLiveData
+    val viewedItemsLiveData: LiveData<List<Int>> get() = filteringOldItems(viewPortLiveData)
 
 
     fun onSaveInstanceState(myState: ViewPortSavedState): Parcelable? {
