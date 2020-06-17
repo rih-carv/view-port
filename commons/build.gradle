@@ -69,7 +69,6 @@ dependencies {
     testImplementation rootProject.testDependencies.junit
     testImplementation rootProject.testDependencies.robolectric
     testImplementation rootProject.testDependencies.mockK
-    testImplementation rootProject.testDependencies.arch
 }
 
 uploadArchives.dependsOn(assemble)
