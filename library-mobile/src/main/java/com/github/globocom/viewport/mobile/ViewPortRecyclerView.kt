@@ -29,6 +29,7 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
      * [viewedItemsLiveData].
      */
     private val viewPortLiveData = ViewPortLiveData<List<Int>>()
+    private val onlyNewItemsViewPortLiveData = ViewPortLiveData<List<Int>>()
     private var viewPortManager: ViewPortManager? = null
     private val scrollIdleTimeoutHandler = Handler()
     private var firstAndLastVisibleItemsLiveData = ViewPortLiveData<Pair<Int, Int>>()
@@ -91,6 +92,7 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
      * Protected [LiveData] to avoid client from overrides this [ViewPortLiveData].
      */
     val viewedItemsLiveData: LiveData<List<Int>> get() = viewPortLiveData
+    val onlyNewViewedItemsLiveData: LiveData<List<Int>> get() = onlyNewItemsViewPortLiveData
 
     /**
      * Client should set this value with a [LifecycleOwner] to pause/return sending values by
@@ -109,6 +111,9 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
             field?.let {
                 viewPortManager?.viewedItemsLiveData?.observe(it, Observer { viewedItems ->
                     this.viewPortLiveData.value = viewedItems
+                })
+                viewPortManager?.onlyNewViewedItemsLiveData?.observe(it, Observer { viewedItems ->
+                    this.onlyNewItemsViewPortLiveData.value = viewedItems
                 })
             }
 

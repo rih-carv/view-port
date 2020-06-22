@@ -59,6 +59,7 @@ open class ViewPortVerticalGridView @JvmOverloads constructor(
      * [viewedItemsLiveData].
      */
     val viewedItemsLiveData = ViewPortLiveData<List<Int>>()
+    val onlyNewViewedItemsLiveData = ViewPortLiveData<List<Int>>()
 
     /**
      * Client should set this value with a [LifecycleOwner] to pause/return sending values by
@@ -77,6 +78,9 @@ open class ViewPortVerticalGridView @JvmOverloads constructor(
             field?.let {
                 viewPortManager?.viewedItemsLiveData?.observe(it, Observer { viewedItems ->
                     this.viewedItemsLiveData.value = viewedItems
+                })
+                viewPortManager?.onlyNewViewedItemsLiveData?.observe(it, Observer { viewedItems ->
+                    this.onlyNewViewedItemsLiveData.value = viewedItems
                 })
             }
 

@@ -61,6 +61,7 @@ open class ViewPortHorizontalGridView @JvmOverloads constructor(
      * [viewedItemsLiveData].
      */
     val viewedItemsLiveData = ViewPortLiveData<List<Int>>()
+    val onlyNewViewedItemsLiveData = ViewPortLiveData<List<Int>>()
 
 
     /**
@@ -80,6 +81,9 @@ open class ViewPortHorizontalGridView @JvmOverloads constructor(
             field?.let {
                 viewPortManager?.viewedItemsLiveData?.observe(it, Observer { viewedItems ->
                     this.viewedItemsLiveData.value = viewedItems
+                })
+                viewPortManager?.onlyNewViewedItemsLiveData?.observe(it, Observer { viewedItems ->
+                    this.onlyNewViewedItemsLiveData.value = viewedItems
                 })
             }
 
