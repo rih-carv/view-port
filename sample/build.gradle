@@ -59,11 +59,9 @@ android {
 }
 
 dependencies {
+    implementation project(':library-mobile')
     implementation rootProject.androidDependencies.kotlin
     implementation rootProject.androidDependencies.appCompat
     implementation rootProject.androidDependencies.recyclerview
     implementation rootProject.androidDependencies.constraintlayout
-    implementation rootProject.androidDependencies.commons
-    implementation rootProject.androidDependencies.viewportmobile
-    implementation rootProject.androidDependencies.viewporttv
 }
