@@ -26,13 +26,26 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
         android:text="@string/view_port_viewed_items"
-        app:layout_constraintBottom_toTopOf="@+id/activity_main_button_linear_layout"
+        app:layout_constraintBottom_toTopOf="@+id/activity_main_text_view_new_viewed_items"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_main_view_port_recycler_view"
         app:layout_constraintVertical_bias="0.0"
         app:layout_constraintVertical_chainStyle="packed" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/activity_main_text_view_new_viewed_items"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/view_port_new_visible_items"
+        app:layout_constraintBottom_toTopOf="@+id/activity_main_button_linear_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_main_text_view_items_viewed_tv" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/activity_main_guideline_half"
@@ -54,7 +67,7 @@
         app:layout_constraintEnd_toStartOf="@+id/activity_main_button_grid_layout"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_main_text_view_items_viewed_tv"
+        app:layout_constraintTop_toBottomOf="@+id/activity_main_text_view_new_viewed_items"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
