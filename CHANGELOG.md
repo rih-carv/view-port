@@ -30,3 +30,7 @@ Change Log
 ## Version 1.1.0
 
  * Sending only those being show 
+
+## Version 1.2.0
+
+ * Create new live data to show new items visible

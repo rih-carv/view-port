@@ -13,8 +13,8 @@ android {
         minSdkVersion rootProject.ext.minMobileSdkVersion
         targetSdkVersion rootProject.ext.maxSdkVersion
 
-        versionCode 6
-        versionName "1.1.0"
+        versionCode 7
+        versionName "1.2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         proguardFiles getDefaultProguardFile('proguard-android.txt'), 'consumer-rules.pro'
@@ -63,10 +63,10 @@ android {
 }
 
 dependencies {
-    implementation project(':commons')
     implementation rootProject.androidDependencies.kotlin
     implementation rootProject.androidDependencies.appCompat
     implementation rootProject.androidDependencies.recyclerview
+    implementation rootProject.androidDependencies.commons
 
     testImplementation rootProject.testDependencies.junit
     testImplementation rootProject.testDependencies.robolectric
