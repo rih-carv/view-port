@@ -57,7 +57,7 @@ class ViewPortManager(
 
                 // Retrieves elements that continues visible.
                 val continueVisibleItemsList =
-                    oldItemsList.intersect(currentVisibleItemsList).toList()
+                    oldItemsList.intersect(currentVisibleItemsList).toMutableList()
 
                 // Updates oldItemsList.
                 oldItemsList = currentVisibleItemsList
@@ -70,7 +70,7 @@ class ViewPortManager(
 
                     // Get only new items by removing previous items from current visible ones
                     val onlyNewItems = continueVisibleItemsList.subtract(previouslyVisibleItemsList)
-                    previouslyVisibleItemsList = continueVisibleItemsList.toMutableList()
+                    previouslyVisibleItemsList = continueVisibleItemsList
 
                     // Updates onlyNewViewPortItemsLiveData value with only the newly visible items
                     onlyNewViewPortItemsLiveData.value = onlyNewItems.toList()
