@@ -92,6 +92,11 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
      * Protected [LiveData] to avoid client from overrides this [ViewPortLiveData].
      */
     val viewedItemsLiveData: LiveData<List<Int>> get() = viewPortLiveData
+
+    /**
+     * A [LiveData] that emits only the newest visible items, ignoring items that remained visible since the last emission.
+     * The main use case of this is to send impression events for metrics of those items.
+     */
     val onlyNewViewedItemsLiveData: LiveData<List<Int>> get() = onlyNewItemsViewPortLiveData
 
     /**
