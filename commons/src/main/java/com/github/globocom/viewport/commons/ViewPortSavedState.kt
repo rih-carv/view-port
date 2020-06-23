@@ -21,7 +21,7 @@ class ViewPortSavedState : View.BaseSavedState {
     var isHearBeatStarted = false
     var isLibStarted = false
     var currentVisibleItemsList = mutableListOf<Int>()
-    var viewedItemsFinalList = mutableListOf<Int>()
+    var previouslyVisibleItemsList = mutableListOf<Int>()
     var oldItemsList = mutableListOf<Int>()
 
     constructor(superState: Parcelable?) : super(superState)
@@ -31,7 +31,7 @@ class ViewPortSavedState : View.BaseSavedState {
         isLibStarted = parcel.readByte() != 0.toByte()
         currentVisibleItemsList =
             (parcel.createIntArray() ?: mutableListOf<Int>()) as MutableList<Int>
-        viewedItemsFinalList = (parcel.createIntArray() ?: mutableListOf<Int>()) as MutableList<Int>
+        previouslyVisibleItemsList = (parcel.createIntArray() ?: mutableListOf<Int>()) as MutableList<Int>
         oldItemsList = (parcel.createIntArray() ?: mutableListOf<Int>()) as MutableList<Int>
     }
 
@@ -40,7 +40,7 @@ class ViewPortSavedState : View.BaseSavedState {
         out.writeByte(if (isHearBeatStarted) 1 else 0)
         out.writeByte(if (isLibStarted) 1 else 0)
         out.writeList(currentVisibleItemsList as MutableList<*>?)
-        out.writeList(viewedItemsFinalList as MutableList<*>?)
+        out.writeList(previouslyVisibleItemsList as MutableList<*>?)
         out.writeList(oldItemsList as MutableList<*>?)
     }
 }

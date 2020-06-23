@@ -5,8 +5,7 @@
     android:id="@+id/view_holder_view_port_content_root"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="4dp"
-    android:layout_marginEnd="4dp">
+    android:layout_margin="4dp">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/view_holder_view_port_image_view_placeholder"
@@ -15,7 +14,6 @@
         android:adjustViewBounds="true"
         android:background="@mipmap/ic_launcher"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

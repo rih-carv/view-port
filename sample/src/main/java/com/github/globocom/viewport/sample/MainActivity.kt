@@ -21,7 +21,12 @@ class MainActivity : AppCompatActivity() {
 
         activity_main_view_port_recycler_view.apply {
             viewedItemsLiveData.observe(this@MainActivity, Observer {
-                activity_main_text_view_items_viewed_tv.text = it.toString()
+                activity_main_text_view_items_viewed_tv.text =
+                    getString(R.string.view_port_viewed_items, it.toString())
+            })
+            onlyNewViewedItemsLiveData.observe(this@MainActivity, Observer {
+                activity_main_text_view_new_viewed_items.text =
+                    getString(R.string.view_port_new_visible_items, it.toString())
             })
             lifecycleOwner = this@MainActivity
         }

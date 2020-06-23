@@ -61,6 +61,12 @@ open class ViewPortVerticalGridView @JvmOverloads constructor(
     val viewedItemsLiveData = ViewPortLiveData<List<Int>>()
 
     /**
+     * A [LiveData] that emits only the newest visible items, ignoring items that remained visible since the last emission.
+     * The main use case of this is to send impression events for metrics of those items.
+     */
+    val onlyNewViewedItemsLiveData = ViewPortLiveData<List<Int>>()
+
+    /**
      * Client should set this value with a [LifecycleOwner] to pause/return sending values by
      * [viewedItemsLiveData] when your activity/fragment pauses or resumes.
      *
@@ -77,6 +83,9 @@ open class ViewPortVerticalGridView @JvmOverloads constructor(
             field?.let {
                 viewPortManager?.viewedItemsLiveData?.observe(it, Observer { viewedItems ->
                     this.viewedItemsLiveData.value = viewedItems
+                })
+                viewPortManager?.onlyNewViewedItemsLiveData?.observe(it, Observer { viewedItems ->
+                    this.onlyNewViewedItemsLiveData.value = viewedItems
                 })
             }
 

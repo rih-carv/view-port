@@ -30,6 +30,7 @@ class ViewPortManager(
     }
 
     private var currentVisibleItemsList = mutableListOf<Int>()
+    private var previouslyVisibleItemsList = mutableListOf<Int>()
     private var oldItemsList = mutableListOf<Int>()
 
     private var isHearBeatStarted = false
@@ -40,6 +41,7 @@ class ViewPortManager(
      * [viewedItemsLiveData].
      */
     private val viewPortLiveData = ViewPortLiveData<List<Int>>()
+    private val onlyNewViewPortItemsLiveData = ViewPortLiveData<List<Int>>()
 
     /**
      * A [CountDownTimer] to simulate 'heart beating'. It starts with [Long.MAX_VALUE] and calls
@@ -55,15 +57,23 @@ class ViewPortManager(
 
                 // Retrieves elements that continues visible.
                 val continueVisibleItemsList =
-                    oldItemsList.intersect(currentVisibleItemsList).toList()
-//
-//                // Updates oldItemsList.
+                    oldItemsList.intersect(currentVisibleItemsList).toMutableList()
+
+                // Updates oldItemsList.
                 oldItemsList = currentVisibleItemsList
-//
-//                // If there are 'continue visible' items since last pulse, updates final list
-//                // avoiding repeat already viewed items.
-                if (!continueVisibleItemsList.none()) {
+
+                // If there are 'continue visible' items since last pulse, updates list
+                // avoiding repeat already viewed items.
+                val valueWillChange = viewPortLiveData.value != continueVisibleItemsList
+                if (!continueVisibleItemsList.none() && valueWillChange) {
                     viewPortLiveData.value = continueVisibleItemsList
+
+                    // Get only new items by removing previous items from current visible ones
+                    val onlyNewItems = continueVisibleItemsList.subtract(previouslyVisibleItemsList)
+                    previouslyVisibleItemsList = continueVisibleItemsList
+
+                    // Updates onlyNewViewPortItemsLiveData value with only the newly visible items
+                    onlyNewViewPortItemsLiveData.value = onlyNewItems.toList()
                 }
             }
         }
@@ -85,12 +95,14 @@ class ViewPortManager(
      * Protected [LiveData] to avoid client from overrides this [ViewPortLiveData].
      */
     val viewedItemsLiveData: LiveData<List<Int>> get() = viewPortLiveData
+    val onlyNewViewedItemsLiveData: LiveData<List<Int>> get() = onlyNewViewPortItemsLiveData
 
 
     fun onSaveInstanceState(myState: ViewPortSavedState): Parcelable? {
         myState.isHearBeatStarted = this.isHearBeatStarted
         myState.isLibStarted = this.isLibStarted
         myState.currentVisibleItemsList = this.currentVisibleItemsList
+        myState.previouslyVisibleItemsList = this.previouslyVisibleItemsList
         myState.oldItemsList = this.oldItemsList
         return myState
     }
@@ -100,6 +112,7 @@ class ViewPortManager(
             this.isHearBeatStarted = it.isHearBeatStarted
             this.isLibStarted = it.isLibStarted
             this.currentVisibleItemsList = it.currentVisibleItemsList
+            this.previouslyVisibleItemsList = it.previouslyVisibleItemsList
             this.oldItemsList = it.oldItemsList
         }
     }
@@ -132,6 +145,7 @@ class ViewPortManager(
         pauseLib()
         oldItemsList.clear()
         currentVisibleItemsList.clear()
+        previouslyVisibleItemsList.clear()
     }
 
     /**

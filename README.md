@@ -75,11 +75,16 @@ view_port_recycler_view.apply {
     viewedItemsLiveData.observe(this@MainActivity, Observer {
         viewed_items_tv.text = it.toString()
     })
+    onlyNewViewedItemsLiveData.observe(this@MainActivity, Observer {
+        only_new_viewed_items_tv.text = it.toString()
+    })
     lifecycleOwner = this@MainActivity
 }
 ```
 
 *  `viewedItemsLiveData`: Returns a list of integers representing the positions of the `ViewPortRecyclerView` items that remained visible on the screen for more than 250ms.
+
+*  `onlyNewViewedItemsLiveData`: Returns a list of integers representing the positions of the `ViewPortRecyclerView`, containing only the newest visible items, ignoring items that remained visible since the last emission. The main use case of this is to send impression events for metrics of those items.
 
 *  `lifecycleOwner`:LifecycleOwner of the activity / fragment in use, so that the library can be reactive to events related to its life cycle.
 
@@ -145,11 +150,16 @@ view_port_vertical_grid_view.apply {
     viewedItemsLiveData.observe(this@MainActivity, Observer {
         viewed_items_tv.text = it.toString()
     })
+    onlyNewViewedItemsLiveData.observe(this@MainActivity, Observer {
+        only_new_viewed_items_tv.text = it.toString()
+    })
     lifecycleOwner = this@MainActivity
 }
 ```
 
 *  `viewedItemsLiveData`: Returns a list of integers representing the positions of the `ViewPortHorizontalGridView` or  `ViewPortVerticalGridView` items that remained visible on the screen for more than 250ms.
+
+*  `onlyNewViewedItemsLiveData`: Returns a list of integers representing the positions of the `ViewPortRecyclerView`, containing only the newest visible items, ignoring items that remained visible since the last emission. The main use case of this is to send impression events for metrics of those items.
 
 *  `lifecycleOwner`:LifecycleOwner of the activity / fragment in use, so that the library can be reactive to events related to its life cycle.
 
