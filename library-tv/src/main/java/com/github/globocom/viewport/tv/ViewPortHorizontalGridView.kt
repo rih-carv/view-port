@@ -116,7 +116,6 @@ open class ViewPortHorizontalGridView @JvmOverloads constructor(
         if (state is ViewPortSavedState) {
             super.onRestoreInstanceState(state.superState)
             viewPortManager?.onRestoreInstanceState(state)
-            requestLayout()
         } else {
             super.onRestoreInstanceState(state)
         }
