@@ -34,3 +34,7 @@ Change Log
 ## Version 1.2.0
 
  * Create new live data to show new items visible
+
+## Version 1.3.0
+
+ * Update commons
