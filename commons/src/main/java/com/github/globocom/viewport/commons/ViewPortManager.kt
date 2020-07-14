@@ -1,7 +1,7 @@
 package com.github.globocom.viewport.commons
 
+import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.Parcelable
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -27,6 +27,11 @@ class ViewPortManager(
 ) {
     private companion object {
         const val HEART_BEAT_TIME = 250L
+        const val INSTANCE_STATE_IS_HEAR_BEAT_STARTED = "instanceStateIsHearBeatStarted"
+        const val INSTANCE_STATE_IS_LIB_STARTED = "instanceStateIsLibStarted"
+        const val INSTANCE_STATE_CURRENT_VISIBLE_ITEMS_LIST = "instanceStateCurrentVisibleItemsList"
+        const val INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST = "instanceStatePreviouslyVisibleItemsList"
+        const val INSTANCE_STATE_OLD_ITEMS_LIST = "instanceStateOldItemsList"
     }
 
     private var currentVisibleItemsList = mutableListOf<Int>()
@@ -97,23 +102,22 @@ class ViewPortManager(
     val viewedItemsLiveData: LiveData<List<Int>> get() = viewPortLiveData
     val onlyNewViewedItemsLiveData: LiveData<List<Int>> get() = onlyNewViewPortItemsLiveData
 
-
-    fun onSaveInstanceState(myState: ViewPortSavedState): Parcelable? {
-        myState.isHearBeatStarted = this.isHearBeatStarted
-        myState.isLibStarted = this.isLibStarted
-        myState.currentVisibleItemsList = this.currentVisibleItemsList
-        myState.previouslyVisibleItemsList = this.previouslyVisibleItemsList
-        myState.oldItemsList = this.oldItemsList
+    fun onSaveInstanceState(myState: Bundle): Bundle? {
+        myState.putBoolean(INSTANCE_STATE_IS_HEAR_BEAT_STARTED, isHearBeatStarted)
+        myState.putBoolean(INSTANCE_STATE_IS_LIB_STARTED, isLibStarted)
+        myState.putIntArray(INSTANCE_STATE_CURRENT_VISIBLE_ITEMS_LIST, currentVisibleItemsList.toIntArray())
+        myState.putIntArray(INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST, previouslyVisibleItemsList.toIntArray())
+        myState.putIntArray(INSTANCE_STATE_OLD_ITEMS_LIST, oldItemsList.toIntArray())
         return myState
     }
 
-    fun onRestoreInstanceState(state: Parcelable?) {
-        (state as? ViewPortSavedState)?.let {
-            this.isHearBeatStarted = it.isHearBeatStarted
-            this.isLibStarted = it.isLibStarted
-            this.currentVisibleItemsList = it.currentVisibleItemsList
-            this.previouslyVisibleItemsList = it.previouslyVisibleItemsList
-            this.oldItemsList = it.oldItemsList
+    fun onRestoreInstanceState(state: Bundle?) {
+        state?.let {
+            isHearBeatStarted = it.getBoolean(INSTANCE_STATE_IS_HEAR_BEAT_STARTED)
+            isLibStarted = it.getBoolean(INSTANCE_STATE_IS_LIB_STARTED)
+            currentVisibleItemsList = it.getIntArray(INSTANCE_STATE_CURRENT_VISIBLE_ITEMS_LIST)?.toMutableList() ?: mutableListOf()
+            previouslyVisibleItemsList = it.getIntArray(INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST)?.toMutableList() ?: mutableListOf()
+            oldItemsList = it.getIntArray(INSTANCE_STATE_OLD_ITEMS_LIST)?.toMutableList() ?: mutableListOf()
         }
     }
 
