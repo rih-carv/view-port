@@ -7,7 +7,6 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.leanback.widget.HorizontalGridView
 import androidx.leanback.widget.OnChildViewHolderSelectedListener
-import androidx.leanback.widget.VerticalGridView
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
 import com.github.globocom.viewport.commons.ViewPortGridViewHelper
@@ -106,7 +105,7 @@ open class ViewPortHorizontalGridView @JvmOverloads constructor(
 
     override fun onChildAttachedToWindow(child: View) {
         super.onChildAttachedToWindow(child)
-        windowAlignment = VerticalGridView.WINDOW_ALIGN_BOTH_EDGE
+        windowAlignment = WINDOW_ALIGN_BOTH_EDGE
     }
 
     override fun onSaveInstanceState(): Parcelable? {
