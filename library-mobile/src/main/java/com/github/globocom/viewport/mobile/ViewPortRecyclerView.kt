@@ -1,6 +1,7 @@
 package com.github.globocom.viewport.mobile
 
 import android.content.Context
+import android.os.Bundle
 import android.os.Handler
 import android.os.Parcelable
 import android.util.AttributeSet
@@ -9,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.globocom.viewport.commons.ViewPortLiveData
 import com.github.globocom.viewport.commons.ViewPortManager
-import com.github.globocom.viewport.commons.ViewPortSavedState
 
 open class ViewPortRecyclerView @JvmOverloads constructor(
     context: Context,
@@ -22,6 +22,7 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
 
     private companion object {
         const val SCROLL_IDLE_TIME = 500L
+        const val INSTANCE_STATE_SUPER_STATE = "instanceStateSuperState"
     }
 
     /**
@@ -127,17 +128,17 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
             viewPortManager?.startLib()
         }
 
-
     override fun onSaveInstanceState(): Parcelable? {
         val superState = super.onSaveInstanceState()
-        val myState = ViewPortSavedState(superState)
+        val myState = Bundle()
+        myState.putParcelable(INSTANCE_STATE_SUPER_STATE, superState)
 
         return viewPortManager?.onSaveInstanceState(myState) ?: superState
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
-        if (state is ViewPortSavedState) {
-            super.onRestoreInstanceState(state.superState)
+        if (state is Bundle) {
+            super.onRestoreInstanceState(state.getParcelable(INSTANCE_STATE_SUPER_STATE))
             viewPortManager?.onRestoreInstanceState(state)
         } else {
             super.onRestoreInstanceState(state)
