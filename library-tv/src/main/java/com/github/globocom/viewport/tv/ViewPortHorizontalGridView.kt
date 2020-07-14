@@ -1,6 +1,7 @@
 package com.github.globocom.viewport.tv
 
 import android.content.Context
+import android.os.Bundle
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
@@ -12,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.globocom.viewport.commons.ViewPortGridViewHelper
 import com.github.globocom.viewport.commons.ViewPortLiveData
 import com.github.globocom.viewport.commons.ViewPortManager
-import com.github.globocom.viewport.commons.ViewPortSavedState
 
 open class ViewPortHorizontalGridView @JvmOverloads constructor(
     context: Context,
@@ -21,6 +21,10 @@ open class ViewPortHorizontalGridView @JvmOverloads constructor(
 ) : HorizontalGridView(context, attrs, defStyleAttr), LifecycleObserver {
     init {
         isSaveEnabled = true
+    }
+
+    private companion object {
+        const val INSTANCE_STATE_SUPER_STATE = "instanceStateSuperState"
     }
 
     private var viewPortManager: ViewPortManager? = null
@@ -107,14 +111,15 @@ open class ViewPortHorizontalGridView @JvmOverloads constructor(
 
     override fun onSaveInstanceState(): Parcelable? {
         val superState = super.onSaveInstanceState()
-        val myState = ViewPortSavedState(superState)
+        val myState = Bundle()
+        myState.putParcelable(INSTANCE_STATE_SUPER_STATE, superState)
 
         return viewPortManager?.onSaveInstanceState(myState) ?: superState
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
-        if (state is ViewPortSavedState) {
-            super.onRestoreInstanceState(state.superState)
+        if (state is Bundle) {
+            super.onRestoreInstanceState(state.getParcelable(INSTANCE_STATE_SUPER_STATE))
             viewPortManager?.onRestoreInstanceState(state)
         } else {
             super.onRestoreInstanceState(state)
