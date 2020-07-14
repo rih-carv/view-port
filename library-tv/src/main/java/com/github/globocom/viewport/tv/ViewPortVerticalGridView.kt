@@ -36,7 +36,7 @@ open class ViewPortVerticalGridView @JvmOverloads constructor(
         object : OnChildViewHolderSelectedListener() {
             override fun onChildViewHolderSelected(
                 parent: RecyclerView,
-                child: ViewHolder,
+                child: ViewHolder?,
                 position: Int,
                 subposition: Int
             ) {

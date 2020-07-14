@@ -1,7 +1,6 @@
 package com.github.globocom.viewport.commons
 
 import android.os.CountDownTimer
-import android.os.Parcelable
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -29,12 +28,12 @@ class ViewPortManager(
         const val HEART_BEAT_TIME = 250L
     }
 
-    private var currentVisibleItemsList = mutableListOf<Int>()
-    private var previouslyVisibleItemsList = mutableListOf<Int>()
-    private var oldItemsList = mutableListOf<Int>()
+    var currentVisibleItemsList = mutableListOf<Int>()
+    var previouslyVisibleItemsList = mutableListOf<Int>()
+    var oldItemsList = mutableListOf<Int>()
 
-    private var isHearBeatStarted = false
-    private var isLibStarted = false
+    var isHearBeatStarted = false
+    var isLibStarted = false
 
     /**
      * [MutableLiveData] to be manipulated in that class. Client should access it's value by using
@@ -96,26 +95,6 @@ class ViewPortManager(
      */
     val viewedItemsLiveData: LiveData<List<Int>> get() = viewPortLiveData
     val onlyNewViewedItemsLiveData: LiveData<List<Int>> get() = onlyNewViewPortItemsLiveData
-
-
-    fun onSaveInstanceState(myState: ViewPortSavedState): Parcelable? {
-        myState.isHearBeatStarted = this.isHearBeatStarted
-        myState.isLibStarted = this.isLibStarted
-        myState.currentVisibleItemsList = this.currentVisibleItemsList
-        myState.previouslyVisibleItemsList = this.previouslyVisibleItemsList
-        myState.oldItemsList = this.oldItemsList
-        return myState
-    }
-
-    fun onRestoreInstanceState(state: Parcelable?) {
-        (state as? ViewPortSavedState)?.let {
-            this.isHearBeatStarted = it.isHearBeatStarted
-            this.isLibStarted = it.isLibStarted
-            this.currentVisibleItemsList = it.currentVisibleItemsList
-            this.previouslyVisibleItemsList = it.previouslyVisibleItemsList
-            this.oldItemsList = it.oldItemsList
-        }
-    }
 
     private fun stopHeartBeat() {
         heartBeat.cancel()
