@@ -1,6 +1,7 @@
 package com.github.globocom.viewport.tv
 
 import android.content.Context
+import android.os.Bundle
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
@@ -11,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.globocom.viewport.commons.ViewPortGridViewHelper
 import com.github.globocom.viewport.commons.ViewPortLiveData
 import com.github.globocom.viewport.commons.ViewPortManager
-import com.github.globocom.viewport.commons.ViewPortSavedState
 
 open class ViewPortHorizontalGridView @JvmOverloads constructor(
     context: Context,
@@ -20,6 +20,15 @@ open class ViewPortHorizontalGridView @JvmOverloads constructor(
 ) : HorizontalGridView(context, attrs, defStyleAttr), LifecycleObserver {
     init {
         isSaveEnabled = true
+    }
+
+    private companion object {
+        const val INSTANCE_STATE_SUPER_STATE = "instanceStateSuperState"
+        const val INSTANCE_STATE_IS_HEAR_BEAT_STARTED = "instanceStateIsHearBeatStarted"
+        const val INSTANCE_STATE_IS_LIB_STARTED = "instanceStateIsLibStarted"
+        const val INSTANCE_STATE_CURRENT_VISIBLE_ITEMS_LIST = "instanceStateCurrentVisibleItemsList"
+        const val INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST = "instanceStatePreviouslyVisibleItemsList"
+        const val INSTANCE_STATE_OLD_ITEMS_LIST = "instanceStateOldItemsList"
     }
 
     private var viewPortManager: ViewPortManager? = null
@@ -106,15 +115,30 @@ open class ViewPortHorizontalGridView @JvmOverloads constructor(
 
     override fun onSaveInstanceState(): Parcelable? {
         val superState = super.onSaveInstanceState()
-        val myState = ViewPortSavedState(superState)
+        val myState = Bundle()
+        myState.putParcelable(INSTANCE_STATE_SUPER_STATE, superState)
 
-        return viewPortManager?.onSaveInstanceState(myState) ?: superState
+        viewPortManager?.let {
+            myState.putBoolean(INSTANCE_STATE_IS_HEAR_BEAT_STARTED, it.isHearBeatStarted)
+            myState.putBoolean(INSTANCE_STATE_IS_LIB_STARTED, it.isLibStarted)
+            myState.putIntArray(INSTANCE_STATE_CURRENT_VISIBLE_ITEMS_LIST, it.currentVisibleItemsList.toIntArray())
+            myState.putIntArray(INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST, it.previouslyVisibleItemsList.toIntArray())
+            myState.putIntArray(INSTANCE_STATE_OLD_ITEMS_LIST, it.oldItemsList.toIntArray())
+        }
+
+        return myState
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
-        if (state is ViewPortSavedState) {
-            super.onRestoreInstanceState(state.superState)
-            viewPortManager?.onRestoreInstanceState(state)
+        if (state is Bundle) {
+            super.onRestoreInstanceState(state.getParcelable(INSTANCE_STATE_SUPER_STATE))
+            viewPortManager?.apply {
+                isHearBeatStarted = state.getBoolean(INSTANCE_STATE_IS_HEAR_BEAT_STARTED)
+                isLibStarted = state.getBoolean(INSTANCE_STATE_IS_LIB_STARTED)
+                currentVisibleItemsList = state.getIntArray(INSTANCE_STATE_CURRENT_VISIBLE_ITEMS_LIST)?.toMutableList() ?: mutableListOf()
+                previouslyVisibleItemsList = state.getIntArray(INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST)?.toMutableList() ?: mutableListOf()
+                oldItemsList = state.getIntArray(INSTANCE_STATE_OLD_ITEMS_LIST)?.toMutableList() ?: mutableListOf()
+            }
         } else {
             super.onRestoreInstanceState(state)
         }
