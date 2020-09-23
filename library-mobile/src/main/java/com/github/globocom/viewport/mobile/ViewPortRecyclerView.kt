@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.globocom.viewport.commons.ViewPortLiveData
 import com.github.globocom.viewport.commons.ViewPortManager
+import java.util.Observer
 
 open class ViewPortRecyclerView @JvmOverloads constructor(
     context: Context,
@@ -39,6 +40,8 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
     private var viewPortManager: ViewPortManager? = null
     private val scrollIdleTimeoutHandler = Handler()
     private var firstAndLastVisibleItemsLiveData = ViewPortLiveData<Pair<Int, Int>>()
+    private var shouldIgnoreFirstTimeRestorationOfPreviouslyVisibleItems = false
+    private var alreadyRestoredState = false
 
     /**
      * [Runnable] to run when [recyclerView] scroll turns [RecyclerView.SCROLL_STATE_IDLE].
@@ -114,12 +117,14 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
      */
     var lifecycleOwner: LifecycleOwner? = null
         set(value) {
+            field?.lifecycle?.removeObserver(this)
             field = value
-            field?.lifecycle?.addObserver(this)
+            value?.lifecycle?.addObserver(this)
 
-            viewPortManager = ViewPortManager(firstAndLastVisibleItemsLiveData, field)
+            viewPortManager?.stopLib()
+            viewPortManager = ViewPortManager(firstAndLastVisibleItemsLiveData, value)
 
-            field?.let {
+            value?.let {
                 viewPortManager?.viewedItemsLiveData?.observe(it, Observer { viewedItems ->
                     this.viewPortLiveData.value = viewedItems
                 })
@@ -156,12 +161,25 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
                 isHearBeatStarted = state.getBoolean(INSTANCE_STATE_IS_HEAR_BEAT_STARTED)
                 isLibStarted = state.getBoolean(INSTANCE_STATE_IS_LIB_STARTED)
                 currentVisibleItemsList = state.getIntArray(INSTANCE_STATE_CURRENT_VISIBLE_ITEMS_LIST)?.toMutableList() ?: mutableListOf()
-                previouslyVisibleItemsList = state.getIntArray(INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST)?.toMutableList() ?: mutableListOf()
                 oldItemsList = state.getIntArray(INSTANCE_STATE_OLD_ITEMS_LIST)?.toMutableList() ?: mutableListOf()
+
+                if (alreadyRestoredState || !shouldIgnoreFirstTimeRestorationOfPreviouslyVisibleItems) {
+                    previouslyVisibleItemsList = state.getIntArray(INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST)?.toMutableList() ?: mutableListOf()
+                }
             }
         } else {
             super.onRestoreInstanceState(state)
         }
+        alreadyRestoredState = true
+    }
+
+    /**
+     * Makes [onlyNewViewedItemsLiveData] emit all visible items on next emission,
+     * as if it was it's first time emission.
+     */
+    fun clearStateOfOnlyNewViewedItems() {
+        shouldIgnoreFirstTimeRestorationOfPreviouslyVisibleItems = true
+        viewPortManager?.previouslyVisibleItemsList?.clear()
     }
 
     /**

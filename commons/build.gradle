@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'maven-publish'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
@@ -121,6 +122,20 @@ afterEvaluate { project ->
                             userName: "",
                             password: ""
                     )
+                }
+            }
+        }
+    }
+
+    afterEvaluate {
+        publishing {
+            publications {
+                maven(MavenPublication) {
+                    groupId = POM_GROUP_ID
+                    artifactId = 'viewport-commons'
+                    version = android.defaultConfig.versionName
+
+                    from components.debug
                 }
             }
         }

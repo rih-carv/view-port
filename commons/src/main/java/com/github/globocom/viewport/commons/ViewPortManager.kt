@@ -51,7 +51,10 @@ class ViewPortManager(
             Long.MAX_VALUE,
             HEART_BEAT_TIME
         ) {
-            override fun onFinish() {}
+            override fun onFinish() {
+                start()
+            }
+
             override fun onTick(millisUntilFinished: Long) {
 
                 // Retrieves elements that continues visible.
