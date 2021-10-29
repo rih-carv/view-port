@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Viewport Tracking Sample</string>
+    <string name="view_port_viewed_items">Viewed Items: %1$s</string>
+    <string name="view_port_new_visible_items">Only New Visible Items: %1$s</string>
+    <string name="view_port_first_item_position_text">first item position: %1$d</string>
+    <string name="view_port_last_item_position_text">last item position: %1$d</string>
+    <string name="view_port_scroll_x_text">Scroll X: %1$d</string>
+    <string name="view_port_scroll_y_text">Scroll Y: %1$d</string>
+    <string name="view_port_old_scroll_x_text">Old Scroll X: %1$d</string>
+    <string name="view_port_old_scroll_y_text">Old Scroll Y: %1$d</string>
+    <string name="view_port_reset">Reset</string>
+    <string name="view_port_title_with_position">Title %d</string>
+</resources>

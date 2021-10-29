@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/activity_main_text_view_items_viewed_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/view_port_viewed_items"
+        app:layout_constraintBottom_toTopOf="@+id/activity_main_text_view_new_viewed_items"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/activity_main_guideline_fifty_four"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/activity_main_text_view_new_viewed_items"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/view_port_new_visible_items"
+        app:layout_constraintBottom_toTopOf="@+id/activity_main_guideline_fifty"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/activity_main_guideline_fifty_four"
+        app:layout_constraintTop_toBottomOf="@+id/activity_main_text_view_items_viewed_tv" />
+
+    <Button
+        android:id="@+id/activity_main_button_vertical_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="Vertical Layout"
+        app:layout_constraintBottom_toTopOf="@+id/activity_main_button_horizontal_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/activity_main_guideline_fifty_four"
+        app:layout_constraintTop_toTopOf="@+id/activity_main_guideline_fifty" />
+
+    <Button
+        android:id="@+id/activity_main_button_horizontal_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Horizontal Layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/activity_main_button_vertical_layout"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/activity_main_button_vertical_layout"
+        app:layout_constraintTop_toBottomOf="@+id/activity_main_button_vertical_layout" />
+
+    <com.github.globocom.viewport.tv.ViewPortVerticalGridView
+        android:id="@+id/activity_main_view_port_vertical_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/activity_main_guideline_fifty_four"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.github.globocom.viewport.tv.ViewPortHorizontalGridView
+        android:id="@+id/activity_main_view_port_horizontal_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/activity_main_guideline_fifty_four"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/activity_main_guideline_fifty_four"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.54" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/activity_main_guideline_fifty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <View
+        android:id="@+id/activity_main_divider"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:background="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/activity_main_guideline_fifty_four"
+        app:layout_constraintStart_toStartOf="@+id/activity_main_guideline_fifty_four"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
