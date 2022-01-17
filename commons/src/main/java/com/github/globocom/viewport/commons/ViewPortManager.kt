@@ -82,7 +82,9 @@ class ViewPortManager(
         val lastItemPosition = it.second
 
         // Gets range of current completely visible items positions.
-        currentVisibleItemsList = (firstItemPosition..lastItemPosition).toMutableList()
+        currentVisibleItemsList = (firstItemPosition..lastItemPosition).filterNot { position ->
+            position < 0
+        }.toMutableList()
 
         // Updates old items viewed.
         if (oldItemsList.none()) {
