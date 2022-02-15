@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.globocom.viewport.commons.ViewPortLiveData
 import com.github.globocom.viewport.commons.ViewPortManager
+import com.github.globocom.viewport.commons.ViewPortPartialHelper
 
 open class ViewPortRecyclerView @JvmOverloads constructor(
     context: Context,
@@ -28,6 +29,7 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
         const val INSTANCE_STATE_CURRENT_VISIBLE_ITEMS_LIST = "instanceStateCurrentVisibleItemsList"
         const val INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST = "instanceStatePreviouslyVisibleItemsList"
         const val INSTANCE_STATE_OLD_ITEMS_LIST = "instanceStateOldItemsList"
+        const val INSTANCE_TOLERANCE_VALUE = "instanceToleranceValue"
     }
 
     /**
@@ -39,6 +41,7 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
     private var viewPortManager: ViewPortManager? = null
     private val scrollIdleTimeoutHandler = Handler()
     private var firstAndLastVisibleItemsLiveData = ViewPortLiveData<Pair<Int, Int>>()
+    private var tolerance = ToleranceEnum.VISIBLE
 
     /**
      * [Runnable] to run when [recyclerView] scroll turns [RecyclerView.SCROLL_STATE_IDLE].
@@ -58,11 +61,25 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
 
             (recyclerView.layoutManager as? LinearLayoutManager)?.let {
                 // Gets first item completely visible position.
-                val firstItemPosition = it.findFirstCompletelyVisibleItemPosition()
-
+                val firstItemPosition = if (tolerance == ToleranceEnum.VISIBLE) {
+                    it.findFirstCompletelyVisibleItemPosition()
+                } else {
+                    ViewPortPartialHelper.findFirstPartiallyVisibleItemPosition(
+                        recyclerView,
+                        it,
+                        tolerance.proportion
+                    )
+                }
                 // Gets last item completely visible position.
-                val lastItemPosition = it.findLastCompletelyVisibleItemPosition()
-
+                val lastItemPosition = if (tolerance == ToleranceEnum.VISIBLE) {
+                    it.findLastCompletelyVisibleItemPosition()
+                } else {
+                    ViewPortPartialHelper.findLastPartiallyVisibleItemPosition(
+                        recyclerView,
+                        it,
+                        tolerance.proportion
+                    )
+                }
                 firstAndLastVisibleItemsLiveData.value = Pair(firstItemPosition, lastItemPosition)
             }
         }
@@ -141,9 +158,16 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
         viewPortManager?.let {
             myState.putBoolean(INSTANCE_STATE_IS_HEAR_BEAT_STARTED, it.isHearBeatStarted)
             myState.putBoolean(INSTANCE_STATE_IS_LIB_STARTED, it.isLibStarted)
-            myState.putIntArray(INSTANCE_STATE_CURRENT_VISIBLE_ITEMS_LIST, it.currentVisibleItemsList.toIntArray())
-            myState.putIntArray(INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST, it.previouslyVisibleItemsList.toIntArray())
+            myState.putIntArray(
+                INSTANCE_STATE_CURRENT_VISIBLE_ITEMS_LIST,
+                it.currentVisibleItemsList.toIntArray()
+            )
+            myState.putIntArray(
+                INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST,
+                it.previouslyVisibleItemsList.toIntArray()
+            )
             myState.putIntArray(INSTANCE_STATE_OLD_ITEMS_LIST, it.oldItemsList.toIntArray())
+            myState.putSerializable(INSTANCE_TOLERANCE_VALUE, tolerance)
         }
 
         return myState
@@ -155,13 +179,23 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
             viewPortManager?.apply {
                 isHearBeatStarted = state.getBoolean(INSTANCE_STATE_IS_HEAR_BEAT_STARTED)
                 isLibStarted = state.getBoolean(INSTANCE_STATE_IS_LIB_STARTED)
-                currentVisibleItemsList = state.getIntArray(INSTANCE_STATE_CURRENT_VISIBLE_ITEMS_LIST)?.toMutableList() ?: mutableListOf()
-                previouslyVisibleItemsList = state.getIntArray(INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST)?.toMutableList() ?: mutableListOf()
-                oldItemsList = state.getIntArray(INSTANCE_STATE_OLD_ITEMS_LIST)?.toMutableList() ?: mutableListOf()
+                currentVisibleItemsList =
+                    state.getIntArray(INSTANCE_STATE_CURRENT_VISIBLE_ITEMS_LIST)?.toMutableList()
+                        ?: mutableListOf()
+                previouslyVisibleItemsList =
+                    state.getIntArray(INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST)?.toMutableList()
+                        ?: mutableListOf()
+                oldItemsList = state.getIntArray(INSTANCE_STATE_OLD_ITEMS_LIST)?.toMutableList()
+                    ?: mutableListOf()
+                tolerance = state.getSerializable(INSTANCE_TOLERANCE_VALUE) as ToleranceEnum
             }
         } else {
             super.onRestoreInstanceState(state)
         }
+    }
+
+    fun tolerance(tolerance: ToleranceEnum) = apply {
+        this.tolerance = tolerance
     }
 
     /**
@@ -188,5 +222,12 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
         viewPortManager?.stopLib()
         lifecycleOwner?.lifecycle?.removeObserver(this)
         removeOnScrollListener(onScrollListener)
+    }
+
+    enum class ToleranceEnum(val proportion: Float) {
+        VISIBLE(1f),
+        HALF(0.5f),
+        ALMOST_HIDDEN(0.25f),
+        ALMOST_VISIBLE(0.75f)
     }
 }
