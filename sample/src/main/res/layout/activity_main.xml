@@ -86,7 +86,7 @@
         app:layout_constraintTop_toTopOf="@+id/activity_main_button_linear_layout" />
 
     <Spinner
-        android:id="@+id/activity_main_spinner_tolerance"
+        android:id="@+id/activity_main_spinner_threshold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

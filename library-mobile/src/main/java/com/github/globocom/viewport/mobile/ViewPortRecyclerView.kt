@@ -29,7 +29,7 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
         const val INSTANCE_STATE_CURRENT_VISIBLE_ITEMS_LIST = "instanceStateCurrentVisibleItemsList"
         const val INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST = "instanceStatePreviouslyVisibleItemsList"
         const val INSTANCE_STATE_OLD_ITEMS_LIST = "instanceStateOldItemsList"
-        const val INSTANCE_TOLERANCE_VALUE = "instanceToleranceValue"
+        const val INSTANCE_THRESHOLD_VALUE = "instanceThresholdValue"
     }
 
     /**
@@ -41,7 +41,7 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
     private var viewPortManager: ViewPortManager? = null
     private val scrollIdleTimeoutHandler = Handler()
     private var firstAndLastVisibleItemsLiveData = ViewPortLiveData<Pair<Int, Int>>()
-    private var tolerance = ToleranceEnum.VISIBLE
+    private var threshold = ThresholdEnum.VISIBLE
 
     /**
      * [Runnable] to run when [recyclerView] scroll turns [RecyclerView.SCROLL_STATE_IDLE].
@@ -61,23 +61,23 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
 
             (recyclerView.layoutManager as? LinearLayoutManager)?.let {
                 // Gets first item completely visible position.
-                val firstItemPosition = if (tolerance == ToleranceEnum.VISIBLE) {
+                val firstItemPosition = if (threshold == ThresholdEnum.VISIBLE) {
                     it.findFirstCompletelyVisibleItemPosition()
                 } else {
                     ViewPortPartialHelper.findFirstPartiallyVisibleItemPosition(
                         recyclerView,
                         it,
-                        tolerance.proportion
+                        threshold.proportion
                     )
                 }
                 // Gets last item completely visible position.
-                val lastItemPosition = if (tolerance == ToleranceEnum.VISIBLE) {
+                val lastItemPosition = if (threshold == ThresholdEnum.VISIBLE) {
                     it.findLastCompletelyVisibleItemPosition()
                 } else {
                     ViewPortPartialHelper.findLastPartiallyVisibleItemPosition(
                         recyclerView,
                         it,
-                        tolerance.proportion
+                        threshold.proportion
                     )
                 }
                 firstAndLastVisibleItemsLiveData.value = Pair(firstItemPosition, lastItemPosition)
@@ -167,7 +167,7 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
                 it.previouslyVisibleItemsList.toIntArray()
             )
             myState.putIntArray(INSTANCE_STATE_OLD_ITEMS_LIST, it.oldItemsList.toIntArray())
-            myState.putSerializable(INSTANCE_TOLERANCE_VALUE, tolerance)
+            myState.putSerializable(INSTANCE_THRESHOLD_VALUE, threshold)
         }
 
         return myState
@@ -187,15 +187,15 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
                         ?: mutableListOf()
                 oldItemsList = state.getIntArray(INSTANCE_STATE_OLD_ITEMS_LIST)?.toMutableList()
                     ?: mutableListOf()
-                tolerance = state.getSerializable(INSTANCE_TOLERANCE_VALUE) as ToleranceEnum
+                threshold = state.getSerializable(INSTANCE_THRESHOLD_VALUE) as ThresholdEnum
             }
         } else {
             super.onRestoreInstanceState(state)
         }
     }
 
-    fun tolerance(tolerance: ToleranceEnum) = apply {
-        this.tolerance = tolerance
+    fun threshold(threshold: ThresholdEnum) = apply {
+        this.threshold = threshold
     }
 
     /**
@@ -224,7 +224,7 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
         removeOnScrollListener(onScrollListener)
     }
 
-    enum class ToleranceEnum(val proportion: Float) {
+    enum class ThresholdEnum(val proportion: Float) {
         VISIBLE(1f),
         HALF(0.5f),
         ALMOST_HIDDEN(0.25f),

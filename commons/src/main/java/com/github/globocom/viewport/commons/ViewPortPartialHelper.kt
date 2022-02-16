@@ -11,13 +11,13 @@ object ViewPortPartialHelper {
     fun findFirstPartiallyVisibleItemPosition(
         recyclerView: RecyclerView,
         linearLayoutManager: LinearLayoutManager,
-        tolerance: Float = 1f
+        threshold: Float = 1f
     ): Int {
         findOneVisibleChild(
             linearLayoutManager,
             0,
             linearLayoutManager.childCount,
-            tolerance
+            threshold
         )?.let { childView ->
             return recyclerView.getChildAdapterPosition(childView)
         }
@@ -27,13 +27,13 @@ object ViewPortPartialHelper {
     fun findLastPartiallyVisibleItemPosition(
         recyclerView: RecyclerView,
         linearLayoutManager: LinearLayoutManager,
-        tolerance: Float = 1f
+        threshold: Float = 1f
     ): Int {
         findOneVisibleChild(
             linearLayoutManager,
             linearLayoutManager.childCount - 1,
             -1,
-            tolerance
+            threshold
         )?.let { childView ->
             return recyclerView.getChildAdapterPosition(childView)
         }
@@ -44,7 +44,7 @@ object ViewPortPartialHelper {
         layoutManager: RecyclerView.LayoutManager,
         fromIndex: Int,
         toIndex: Int,
-        tolerance: Float
+        threshold: Float
     ): View? {
         val helper: OrientationHelper = if (layoutManager.canScrollVertically()) {
             OrientationHelper.createVerticalHelper(layoutManager)
@@ -65,7 +65,7 @@ object ViewPortPartialHelper {
                 if (childStart >= start && childEnd <= end) {
                     return child
                 } else {
-                    if (checkTolerance(tolerance, childStart, childEnd, end, next == 1)) {
+                    if (checkThreshold(threshold, childStart, childEnd, end, next == 1)) {
                         return child
                     }
                 }
@@ -75,22 +75,22 @@ object ViewPortPartialHelper {
         return null
     }
 
-    private fun checkTolerance(
-        tolerance: Float,
+    private fun checkThreshold(
+        threshold: Float,
         childStart: Int,
         childEnd: Int,
         end: Int,
         start: Boolean
     ): Boolean {
-        return if (start) checkToleranceAtStart(
-            tolerance,
+        return if (start) checkThresholdAtStart(
+            threshold,
             childStart,
             childEnd
-        ) else checkToleranceAtEnd(tolerance, childStart, childEnd, end)
+        ) else checkThresholdAtEnd(threshold, childStart, childEnd, end)
     }
 
-    private fun checkToleranceAtStart(
-        tolerance: Float,
+    private fun checkThresholdAtStart(
+        threshold: Float,
         childStart: Int,
         childEnd: Int
     ): Boolean {
@@ -101,11 +101,11 @@ object ViewPortPartialHelper {
             childStart.toFloat()
         }
         val visibleProportion = visibleViewSize / viewSize
-        return visibleProportion >= tolerance
+        return visibleProportion >= threshold
     }
 
-    private fun checkToleranceAtEnd(
-        tolerance: Float,
+    private fun checkThresholdAtEnd(
+        threshold: Float,
         childStart: Int,
         childEnd: Int,
         end: Int
@@ -113,6 +113,6 @@ object ViewPortPartialHelper {
         val viewSize = childEnd - childStart
         val visibleViewSize = end - childStart
         val visibleProportion: Float = visibleViewSize.toFloat() / viewSize.toFloat()
-        return visibleProportion >= tolerance
+        return visibleProportion >= threshold
     }
 }

@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setRecyclerView(LINEAR_LAYOUT_MANAGER, ViewPortRecyclerView.ToleranceEnum.VISIBLE)
+        setRecyclerView(LINEAR_LAYOUT_MANAGER, ViewPortRecyclerView.ThresholdEnum.VISIBLE)
 
         activity_main_view_port_recycler_view.apply {
             viewedItemsLiveData.observe(this@MainActivity, Observer {
@@ -33,25 +33,25 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     getString(R.string.view_port_new_visible_items, it.toString())
             })
             lifecycleOwner = this@MainActivity
-            tolerance(ViewPortRecyclerView.ToleranceEnum.VISIBLE)
+            threshold(ViewPortRecyclerView.ThresholdEnum.VISIBLE)
         }
 
         activity_main_button_linear_layout.setOnClickListener {
-            setRecyclerView(LINEAR_LAYOUT_MANAGER, getSelectedTolerance())
+            setRecyclerView(LINEAR_LAYOUT_MANAGER, getSelectedThreshold())
             activity_main_view_port_recycler_view.invalidate()
         }
 
         activity_main_button_grid_layout.setOnClickListener {
-            setRecyclerView(GRID_LAYOUT_MANAGER, getSelectedTolerance())
+            setRecyclerView(GRID_LAYOUT_MANAGER, getSelectedThreshold())
             activity_main_view_port_recycler_view.invalidate()
         }
 
         val adapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
-            ViewPortRecyclerView.ToleranceEnum.values()
+            ViewPortRecyclerView.ThresholdEnum.values()
         )
-        activity_main_spinner_tolerance.apply {
+        activity_main_spinner_threshold.apply {
             this.adapter = adapter
             onItemSelectedListener = this@MainActivity
         }
@@ -59,11 +59,11 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private fun setRecyclerView(
         layoutManagerOption: Int,
-        toleranceEnum: ViewPortRecyclerView.ToleranceEnum
+        thresholdEnum: ViewPortRecyclerView.ThresholdEnum
     ) {
         activity_main_view_port_recycler_view.apply {
             setHasFixedSize(true)
-            tolerance(toleranceEnum)
+            threshold(thresholdEnum)
             layoutManager =
                 if (layoutManagerOption == GRID_LAYOUT_MANAGER) GridLayoutManager(context, 4)
                 else LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -72,13 +72,13 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    private fun getSelectedTolerance(): ViewPortRecyclerView.ToleranceEnum {
-        return activity_main_spinner_tolerance.selectedItem as ViewPortRecyclerView.ToleranceEnum
+    private fun getSelectedThreshold(): ViewPortRecyclerView.ThresholdEnum {
+        return activity_main_spinner_threshold.selectedItem as ViewPortRecyclerView.ThresholdEnum
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         activity_main_view_port_recycler_view.apply {
-            tolerance(ViewPortRecyclerView.ToleranceEnum.values()[position])
+            threshold(ViewPortRecyclerView.ThresholdEnum.values()[position])
         }
     }
 
