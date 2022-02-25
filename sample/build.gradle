@@ -64,4 +64,5 @@ dependencies {
     implementation rootProject.androidDependencies.appCompat
     implementation rootProject.androidDependencies.recyclerview
     implementation rootProject.androidDependencies.constraintlayout
+    implementation rootProject.androidDependencies.commons
 }

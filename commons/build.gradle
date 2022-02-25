@@ -65,6 +65,7 @@ dependencies {
     implementation rootProject.androidDependencies.kotlin
     implementation rootProject.androidDependencies.appCompat
     implementation rootProject.androidDependencies.recyclerview
+    implementation rootProject.androidDependencies.kotlinreflect
 
     testImplementation rootProject.testDependencies.junit
     testImplementation rootProject.testDependencies.robolectric
