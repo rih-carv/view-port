@@ -66,20 +66,22 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
                 val firstItemPosition = if (threshold == Threshold.Visible) {
                     it.findFirstCompletelyVisibleItemPosition()
                 } else {
-                    ViewPortPartialHelper.findFirstPartiallyVisibleItemPosition(
+                    ViewPortPartialHelper.findPartialVisibleChild(
                         recyclerView,
                         it,
-                        threshold.proportion
+                        threshold.proportion,
+                        false
                     )
                 }
                 // Gets last item completely visible position.
                 val lastItemPosition = if (threshold == Threshold.Visible) {
                     it.findLastCompletelyVisibleItemPosition()
                 } else {
-                    ViewPortPartialHelper.findLastPartiallyVisibleItemPosition(
+                    ViewPortPartialHelper.findPartialVisibleChild(
                         recyclerView,
                         it,
-                        threshold.proportion
+                        threshold.proportion,
+                        true
                     )
                 }
                 firstAndLastVisibleItemsLiveData.value = Pair(firstItemPosition, lastItemPosition)
