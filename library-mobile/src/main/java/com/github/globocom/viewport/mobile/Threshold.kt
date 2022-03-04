@@ -1,4 +1,4 @@
-package com.github.globocom.viewport.commons
+package com.github.globocom.viewport.mobile
 
 import androidx.annotation.FloatRange
 

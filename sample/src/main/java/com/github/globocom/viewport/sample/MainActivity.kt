@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.globocom.viewport.commons.Threshold
+import com.github.globocom.viewport.mobile.Threshold
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private fun getSelectedThreshold(): Threshold {
-        return activity_main_spinner_threshold.selectedItem as Threshold
+        return  spinnerThresholdValues[activity_main_spinner_threshold.selectedItemPosition]
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

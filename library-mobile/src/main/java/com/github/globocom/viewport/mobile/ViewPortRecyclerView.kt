@@ -8,7 +8,6 @@ import android.util.AttributeSet
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.github.globocom.viewport.commons.Threshold
 import com.github.globocom.viewport.commons.ViewPortLiveData
 import com.github.globocom.viewport.commons.ViewPortManager
 import com.github.globocom.viewport.commons.ViewPortPartialHelper
