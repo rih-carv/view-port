@@ -17,6 +17,13 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         private const val GRID_LAYOUT_MANAGER = 1
     }
 
+    private val spinnerThresholdValues = arrayListOf(
+        Threshold.Visible,
+        Threshold.Half,
+        Threshold.AlmostVisible,
+        Threshold.AlmostHidden
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -49,7 +56,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val adapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
-            Threshold.values()
+            spinnerThresholdValues.map { it::class.simpleName }
         )
         activity_main_spinner_threshold.apply {
             this.adapter = adapter
@@ -78,7 +85,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         activity_main_view_port_recycler_view.apply {
-            threshold(Threshold.values()[position] ?: Threshold.Visible)
+            threshold(spinnerThresholdValues[position])
         }
     }
 
