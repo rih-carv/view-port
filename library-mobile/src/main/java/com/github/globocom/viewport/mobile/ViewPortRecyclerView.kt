@@ -195,7 +195,7 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
                         INSTANCE_THRESHOLD_PROPORTION_VALUE,
                         1f
                     )
-                )
+                ) ?: Threshold.VISIBLE
             }
         } else {
             super.onRestoreInstanceState(state)

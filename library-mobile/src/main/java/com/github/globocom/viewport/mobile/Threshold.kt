@@ -7,6 +7,7 @@ enum class Threshold(val proportion: Float) {
     ALMOST_VISIBLE(0.75f);
 
     companion object {
-        fun fromProportionValue(proportion: Float) = values().first { it.proportion == proportion }
+        fun fromProportionValue(proportion: Float) =
+            values().firstOrNull { it.proportion == proportion }
     }
 }
