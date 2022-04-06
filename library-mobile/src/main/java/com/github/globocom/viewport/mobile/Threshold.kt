@@ -1,17 +1,12 @@
 package com.github.globocom.viewport.mobile
 
-import androidx.annotation.FloatRange
-
-sealed class Threshold(val proportion: Float) {
-    object Visible : Threshold(1f)
-    object Half : Threshold(0.5f)
-    object AlmostHidden : Threshold(0.25f)
-    object AlmostVisible : Threshold(0.75f)
-    class Custom(@FloatRange(from = 0.0, to = 1.0) proportion: Float) : Threshold(proportion)
+enum class Threshold(val proportion: Float) {
+    VISIBLE(1f),
+    HALF(0.5f),
+    ALMOST_HIDDEN(0.25f),
+    ALMOST_VISIBLE(0.75f);
 
     companion object {
-        fun fromProportionValue(proportion: Float) = listOf(
-            Visible, Half, AlmostHidden, AlmostVisible
-        ).firstOrNull { it.proportion == proportion } ?: Custom(proportion)
+        fun fromProportionValue(proportion: Float) = values().first { it.proportion == proportion }
     }
 }

@@ -42,7 +42,7 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
     private var viewPortManager: ViewPortManager? = null
     private val scrollIdleTimeoutHandler = Handler()
     private var firstAndLastVisibleItemsLiveData = ViewPortLiveData<Pair<Int, Int>>()
-    private var threshold: Threshold = Threshold.Visible
+    private var threshold: Threshold = Threshold.VISIBLE
 
     /**
      * [Runnable] to run when [recyclerView] scroll turns [RecyclerView.SCROLL_STATE_IDLE].
@@ -62,7 +62,7 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
 
             (recyclerView.layoutManager as? LinearLayoutManager)?.let {
                 // Gets first item completely visible position.
-                val firstItemPosition = if (threshold == Threshold.Visible) {
+                val firstItemPosition = if (threshold == Threshold.VISIBLE) {
                     it.findFirstCompletelyVisibleItemPosition()
                 } else {
                     ViewPortPartialHelper.findPartialVisibleChild(
@@ -73,7 +73,7 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
                     )
                 }
                 // Gets last item completely visible position.
-                val lastItemPosition = if (threshold == Threshold.Visible) {
+                val lastItemPosition = if (threshold == Threshold.VISIBLE) {
                     it.findLastCompletelyVisibleItemPosition()
                 } else {
                     ViewPortPartialHelper.findPartialVisibleChild(
