@@ -53,13 +53,12 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             activity_main_view_port_recycler_view.invalidate()
         }
 
-        val adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            spinnerThresholdValues.map { it::class.simpleName }
-        )
-        activity_main_spinner_threshold.apply {
-            this.adapter = adapter
+        activity_main_spinner_threshold.run {
+            this.adapter = ArrayAdapter(
+                this@MainActivity,
+                android.R.layout.simple_spinner_item,
+                spinnerThresholdValues.map { it::class.simpleName }
+            )
             onItemSelectedListener = this@MainActivity
         }
     }
@@ -80,13 +79,11 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private fun getSelectedThreshold(): Threshold {
-        return  spinnerThresholdValues[activity_main_spinner_threshold.selectedItemPosition]
+        return spinnerThresholdValues[activity_main_spinner_threshold.selectedItemPosition]
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        activity_main_view_port_recycler_view.apply {
-            threshold(spinnerThresholdValues[position])
-        }
+        activity_main_view_port_recycler_view.threshold(spinnerThresholdValues[position])
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
