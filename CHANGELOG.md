@@ -42,3 +42,7 @@ Change Log
 ## Version 1.3.1
 
  * Update commons
+
+## Version 1.4.0
+
+ * Add a possibility to consider a partial item as valid.
