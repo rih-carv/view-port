@@ -10,7 +10,7 @@ class ViewPortSampleViewHolder(
 
     fun bind() {
         with(headline) {
-            text = context.getString(R.string.view_port_title_with_position, adapterPosition)
+            text = context.getString(R.string.view_port_title_with_position, absoluteAdapterPosition)
         }
     }
 }

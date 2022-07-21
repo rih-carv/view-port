@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.leanback.widget.BaseGridView
-import androidx.lifecycle.Observer
 import com.github.globocom.viewport.sample_tv.databinding.ActivityMainBinding
 
 class MainActivity : FragmentActivity() {
@@ -33,26 +32,26 @@ class MainActivity : FragmentActivity() {
         setRecyclerViewLayout(Layout.VERTICAL)
 
         activityMainViewPortVerticalRecyclerView.apply {
-            viewedItemsLiveData.observe(this@MainActivity, Observer {
+            viewedItemsLiveData.observe(this@MainActivity) {
                 activityMainTextViewItemsViewedTv.text =
                     getString(R.string.view_port_viewed_items, it.toString())
-            })
-            onlyNewViewedItemsLiveData.observe(this@MainActivity, Observer {
+            }
+            onlyNewViewedItemsLiveData.observe(this@MainActivity) {
                 activityMainTextViewNewViewedItems.text =
                     getString(R.string.view_port_new_visible_items, it.toString())
-            })
+            }
             lifecycleOwner = this@MainActivity
         }
 
         activityMainViewPortHorizontalRecyclerView.apply {
-            viewedItemsLiveData.observe(this@MainActivity, Observer {
+            viewedItemsLiveData.observe(this@MainActivity) {
                 activityMainTextViewItemsViewedTv.text =
                     getString(R.string.view_port_viewed_items, it.toString())
-            })
-            onlyNewViewedItemsLiveData.observe(this@MainActivity, Observer {
+            }
+            onlyNewViewedItemsLiveData.observe(this@MainActivity) {
                 activityMainTextViewNewViewedItems.text =
                     getString(R.string.view_port_new_visible_items, it.toString())
-            })
+            }
             lifecycleOwner = this@MainActivity
         }
 
