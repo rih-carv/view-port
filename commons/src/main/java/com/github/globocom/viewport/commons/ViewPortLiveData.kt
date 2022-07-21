@@ -19,11 +19,6 @@ class ViewPortLiveData<T> : MutableLiveData<T>() {
 
     @MainThread
     override fun removeObserver(observer: Observer<in T>) {
-        if (observers.remove(observer)) {
-            super.removeObserver(observer)
-            return
-        }
-
         val iterator = observers.iterator()
         while (iterator.hasNext()) {
             val wrapper = iterator.next()

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.globocom.viewport.commons.ViewPortLiveData
 import com.github.globocom.viewport.commons.ViewPortManager
+import com.github.globocom.viewport.commons.ViewPortPartialHelper
 
 open class ViewPortRecyclerView @JvmOverloads constructor(
     context: Context,
@@ -26,8 +27,10 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
         const val INSTANCE_STATE_IS_HEAR_BEAT_STARTED = "instanceStateIsHearBeatStarted"
         const val INSTANCE_STATE_IS_LIB_STARTED = "instanceStateIsLibStarted"
         const val INSTANCE_STATE_CURRENT_VISIBLE_ITEMS_LIST = "instanceStateCurrentVisibleItemsList"
-        const val INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST = "instanceStatePreviouslyVisibleItemsList"
+        const val INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST =
+            "instanceStatePreviouslyVisibleItemsList"
         const val INSTANCE_STATE_OLD_ITEMS_LIST = "instanceStateOldItemsList"
+        const val INSTANCE_THRESHOLD_PROPORTION_VALUE = "instanceThresholdProportionValue"
     }
 
     /**
@@ -39,6 +42,7 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
     private var viewPortManager: ViewPortManager? = null
     private val scrollIdleTimeoutHandler = Handler()
     private var firstAndLastVisibleItemsLiveData = ViewPortLiveData<Pair<Int, Int>>()
+    private var threshold: Threshold = Threshold.VISIBLE
 
     /**
      * [Runnable] to run when [recyclerView] scroll turns [RecyclerView.SCROLL_STATE_IDLE].
@@ -58,11 +62,27 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
 
             (recyclerView.layoutManager as? LinearLayoutManager)?.let {
                 // Gets first item completely visible position.
-                val firstItemPosition = it.findFirstCompletelyVisibleItemPosition()
-
+                val firstItemPosition = if (threshold == Threshold.VISIBLE) {
+                    it.findFirstCompletelyVisibleItemPosition()
+                } else {
+                    ViewPortPartialHelper.findPartialVisibleChild(
+                        recyclerView,
+                        it,
+                        threshold.proportion,
+                        false
+                    )
+                }
                 // Gets last item completely visible position.
-                val lastItemPosition = it.findLastCompletelyVisibleItemPosition()
-
+                val lastItemPosition = if (threshold == Threshold.VISIBLE) {
+                    it.findLastCompletelyVisibleItemPosition()
+                } else {
+                    ViewPortPartialHelper.findPartialVisibleChild(
+                        recyclerView,
+                        it,
+                        threshold.proportion,
+                        true
+                    )
+                }
                 firstAndLastVisibleItemsLiveData.value = Pair(firstItemPosition, lastItemPosition)
             }
         }
@@ -141,9 +161,16 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
         viewPortManager?.let {
             myState.putBoolean(INSTANCE_STATE_IS_HEAR_BEAT_STARTED, it.isHearBeatStarted)
             myState.putBoolean(INSTANCE_STATE_IS_LIB_STARTED, it.isLibStarted)
-            myState.putIntArray(INSTANCE_STATE_CURRENT_VISIBLE_ITEMS_LIST, it.currentVisibleItemsList.toIntArray())
-            myState.putIntArray(INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST, it.previouslyVisibleItemsList.toIntArray())
+            myState.putIntArray(
+                INSTANCE_STATE_CURRENT_VISIBLE_ITEMS_LIST,
+                it.currentVisibleItemsList.toIntArray()
+            )
+            myState.putIntArray(
+                INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST,
+                it.previouslyVisibleItemsList.toIntArray()
+            )
             myState.putIntArray(INSTANCE_STATE_OLD_ITEMS_LIST, it.oldItemsList.toIntArray())
+            myState.putFloat(INSTANCE_THRESHOLD_PROPORTION_VALUE, threshold.proportion)
         }
 
         return myState
@@ -155,13 +182,28 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
             viewPortManager?.apply {
                 isHearBeatStarted = state.getBoolean(INSTANCE_STATE_IS_HEAR_BEAT_STARTED)
                 isLibStarted = state.getBoolean(INSTANCE_STATE_IS_LIB_STARTED)
-                currentVisibleItemsList = state.getIntArray(INSTANCE_STATE_CURRENT_VISIBLE_ITEMS_LIST)?.toMutableList() ?: mutableListOf()
-                previouslyVisibleItemsList = state.getIntArray(INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST)?.toMutableList() ?: mutableListOf()
-                oldItemsList = state.getIntArray(INSTANCE_STATE_OLD_ITEMS_LIST)?.toMutableList() ?: mutableListOf()
+                currentVisibleItemsList =
+                    state.getIntArray(INSTANCE_STATE_CURRENT_VISIBLE_ITEMS_LIST)?.toMutableList()
+                        ?: mutableListOf()
+                previouslyVisibleItemsList =
+                    state.getIntArray(INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST)?.toMutableList()
+                        ?: mutableListOf()
+                oldItemsList = state.getIntArray(INSTANCE_STATE_OLD_ITEMS_LIST)?.toMutableList()
+                    ?: mutableListOf()
+                threshold = Threshold.fromProportionValue(
+                    state.getFloat(
+                        INSTANCE_THRESHOLD_PROPORTION_VALUE,
+                        1f
+                    )
+                ) ?: Threshold.VISIBLE
             }
         } else {
             super.onRestoreInstanceState(state)
         }
+    }
+
+    fun threshold(threshold: Threshold) = apply {
+        this.threshold = threshold
     }
 
     /**
