@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/activity_main_text_view_items_viewed_tv"
+        android:id="@+id/viewed_items_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -13,26 +13,26 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:text="@string/view_port_viewed_items"
-        app:layout_constraintBottom_toTopOf="@+id/activity_main_text_view_new_viewed_items"
+        app:layout_constraintBottom_toTopOf="@id/new_viewed_items_text_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/activity_main_guideline_fifty_four"
+        app:layout_constraintStart_toStartOf="@id/activity_main_guideline_fifty_four"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/activity_main_text_view_new_viewed_items"
+        android:id="@+id/new_viewed_items_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/view_port_new_visible_items"
-        app:layout_constraintBottom_toTopOf="@+id/activity_main_guideline_fifty"
+        app:layout_constraintBottom_toTopOf="@id/activity_main_guideline_fifty"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/activity_main_guideline_fifty_four"
-        app:layout_constraintTop_toBottomOf="@+id/activity_main_text_view_items_viewed_tv" />
+        app:layout_constraintStart_toStartOf="@id/activity_main_guideline_fifty_four"
+        app:layout_constraintTop_toBottomOf="@id/viewed_items_text_view" />
 
     <Button
-        android:id="@+id/activity_main_button_vertical_layout"
+        android:id="@+id/vertical_layout_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -40,38 +40,55 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:text="Vertical Layout"
-        app:layout_constraintBottom_toTopOf="@+id/activity_main_button_horizontal_layout"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_layout_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/activity_main_guideline_fifty_four"
-        app:layout_constraintTop_toTopOf="@+id/activity_main_guideline_fifty" />
+        app:layout_constraintStart_toStartOf="@id/activity_main_guideline_fifty_four"
+        app:layout_constraintTop_toTopOf="@id/activity_main_guideline_fifty" />
 
     <Button
-        android:id="@+id/activity_main_button_horizontal_layout"
+        android:id="@+id/horizontal_layout_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Horizontal Layout"
+        app:layout_constraintBottom_toTopOf="@id/nested_layout_button"
+        app:layout_constraintEnd_toEndOf="@id/vertical_layout_button"
+        app:layout_constraintStart_toStartOf="@id/vertical_layout_button"
+        app:layout_constraintTop_toBottomOf="@id/vertical_layout_button" />
+
+    <Button
+        android:id="@+id/nested_layout_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Nested Layout"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/activity_main_button_vertical_layout"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/activity_main_button_vertical_layout"
-        app:layout_constraintTop_toBottomOf="@+id/activity_main_button_vertical_layout" />
+        app:layout_constraintEnd_toEndOf="@id/horizontal_layout_button"
+        app:layout_constraintStart_toStartOf="@id/horizontal_layout_button"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_layout_button" />
 
     <com.github.globocom.viewport.tv.ViewPortVerticalGridView
-        android:id="@+id/activity_main_view_port_vertical_recycler_view"
+        android:id="@+id/vertical_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/activity_main_guideline_fifty_four"
+        app:layout_constraintEnd_toStartOf="@id/activity_main_guideline_fifty_four"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.github.globocom.viewport.tv.ViewPortHorizontalGridView
-        android:id="@+id/activity_main_view_port_horizontal_recycler_view"
+        android:id="@+id/horizontal_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/activity_main_guideline_fifty_four"
+        app:layout_constraintEnd_toStartOf="@id/activity_main_guideline_fifty_four"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.github.globocom.viewport.tv.ViewPortVerticalGridView
+        android:id="@+id/nested_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/activity_main_guideline_fifty_four"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -95,7 +112,7 @@
         android:layout_height="0dp"
         android:background="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/activity_main_guideline_fifty_four"
-        app:layout_constraintStart_toStartOf="@+id/activity_main_guideline_fifty_four"
+        app:layout_constraintEnd_toStartOf="@id/activity_main_guideline_fifty_four"
+        app:layout_constraintStart_toStartOf="@id/activity_main_guideline_fifty_four"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

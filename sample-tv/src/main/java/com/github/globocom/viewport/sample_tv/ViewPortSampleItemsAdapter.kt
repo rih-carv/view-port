@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.github.globocom.viewport.sample_tv.databinding.ViewHolderViewPortSampleBinding
 
-class ViewPortSampleAdapter(private val listItems: List<Int>) :
+class ViewPortSampleItemsAdapter(private val listItems: List<Int>) :
     RecyclerView.Adapter<ViewPortSampleViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewPortSampleViewHolder(
