@@ -51,11 +51,22 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="GridLayout"
-        app:layout_constraintBottom_toTopOf="@+id/activity_main_spinner_threshold"
+        app:layout_constraintBottom_toTopOf="@+id/activity_main_button_nested_layout"
         app:layout_constraintEnd_toEndOf="@+id/activity_main_button_linear_layout"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/activity_main_button_linear_layout"
         app:layout_constraintTop_toBottomOf="@+id/activity_main_button_linear_layout" />
+
+    <Button
+        android:id="@+id/activity_main_button_nested_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="GridLayout"
+        app:layout_constraintBottom_toTopOf="@+id/activity_main_spinner_threshold"
+        app:layout_constraintEnd_toEndOf="@+id/activity_main_button_grid_layout"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/activity_main_button_grid_layout"
+        app:layout_constraintTop_toBottomOf="@+id/activity_main_button_grid_layout" />
 
     <Spinner
         android:id="@+id/activity_main_spinner_threshold"

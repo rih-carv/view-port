@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     companion object {
         private const val LINEAR_LAYOUT_MANAGER = 0
         private const val GRID_LAYOUT_MANAGER = 1
+        private const val NESTED_LAYOUT_MANAGER = 2
     }
 
     private val spinnerThresholdValues = arrayListOf(
@@ -31,14 +32,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         setRecyclerView(LINEAR_LAYOUT_MANAGER, Threshold.VISIBLE)
 
         activity_main_view_port_recycler_view.apply {
-            viewedItemsLiveData.observe(this@MainActivity, Observer {
-                activity_main_text_view_items_viewed_tv.text =
-                    getString(R.string.view_port_viewed_items, it.toString())
-            })
-            onlyNewViewedItemsLiveData.observe(this@MainActivity, Observer {
-                activity_main_text_view_new_viewed_items.text =
-                    getString(R.string.view_port_new_visible_items, it.toString())
-            })
             lifecycleOwner = this@MainActivity
             threshold(Threshold.VISIBLE)
         }
@@ -50,6 +43,11 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         activity_main_button_grid_layout.setOnClickListener {
             setRecyclerView(GRID_LAYOUT_MANAGER, getSelectedThreshold())
+            activity_main_view_port_recycler_view.invalidate()
+        }
+
+        activity_main_button_nested_layout.setOnClickListener {
+            setRecyclerView(NESTED_LAYOUT_MANAGER, getSelectedThreshold())
             activity_main_view_port_recycler_view.invalidate()
         }
 
@@ -70,11 +68,51 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         activity_main_view_port_recycler_view.apply {
             setHasFixedSize(true)
             threshold(threshold)
+            if (layoutManagerOption == NESTED_LAYOUT_MANAGER) setNestedRecyclerView()
+            else setCommonRecyclerView(layoutManagerOption)
+        }
+    }
+
+    private fun setCommonRecyclerView(
+        layoutManagerOption: Int
+    ) {
+        activity_main_view_port_recycler_view.apply {
             layoutManager =
                 if (layoutManagerOption == GRID_LAYOUT_MANAGER) GridLayoutManager(context, 4)
                 else LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
             adapter = ViewPortSampleAdapter((0..100).toList())
+
+            viewedItemsLiveData.observe(this@MainActivity) {
+                activity_main_text_view_items_viewed_tv.text =
+                    getString(R.string.view_port_viewed_items, it.toString())
+            }
+            onlyNewViewedItemsLiveData.observe(this@MainActivity) {
+                activity_main_text_view_new_viewed_items.text =
+                    getString(R.string.view_port_new_visible_items, it.toString())
+            }
+        }
+    }
+
+    private fun setNestedRecyclerView() {
+        activity_main_view_port_recycler_view.apply {
+            val nestedItemsAdapter = ViewPortSampleNestedItemsAdapter(
+                (0..100).toList(),
+                this@MainActivity,
+                viewedItemsLiveData,
+                onlyNewViewedItemsLiveData
+            )
+            adapter = nestedItemsAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+            nestedItemsAdapter.viewedItemsLiveData.observe(this@MainActivity) {
+                activity_main_text_view_items_viewed_tv.text =
+                    getString(R.string.view_port_viewed_items, it.toString())
+            }
+            nestedItemsAdapter.onlyNewViewedItemsLiveData.observe(this@MainActivity) {
+                activity_main_text_view_new_viewed_items.text =
+                    getString(R.string.view_port_new_visible_items, it.toString())
+            }
         }
     }
 
