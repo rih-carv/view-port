@@ -84,10 +84,11 @@ open class ViewPortVerticalGridView @JvmOverloads constructor(
      */
     var lifecycleOwner: LifecycleOwner? = null
         set(value) {
+            field?.lifecycle?.removeObserver(this)
             field = value
             field?.lifecycle?.addObserver(this)
 
-            viewPortManager = ViewPortManager(firstAndLastVisibleItemsLiveData, field)
+            viewPortManager = ViewPortManager(firstAndLastVisibleItemsLiveData)
 
             field?.let {
                 viewPortManager?.viewedItemsLiveData?.observe(it, Observer { viewedItems ->
@@ -120,7 +121,7 @@ open class ViewPortVerticalGridView @JvmOverloads constructor(
             myState.putBoolean(INSTANCE_STATE_IS_LIB_STARTED, it.isLibStarted)
             myState.putIntArray(INSTANCE_STATE_CURRENT_VISIBLE_ITEMS_LIST, it.currentVisibleItemsList.toIntArray())
             myState.putIntArray(INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST, it.previouslyVisibleItemsList.toIntArray())
-            myState.putIntArray(INSTANCE_STATE_OLD_ITEMS_LIST, it.oldItemsList.toIntArray())
+            myState.putIntArray(INSTANCE_STATE_OLD_ITEMS_LIST, it.oldItemsList?.toIntArray())
         }
 
         return myState
@@ -134,7 +135,7 @@ open class ViewPortVerticalGridView @JvmOverloads constructor(
                 isLibStarted = state.getBoolean(INSTANCE_STATE_IS_LIB_STARTED)
                 currentVisibleItemsList = state.getIntArray(INSTANCE_STATE_CURRENT_VISIBLE_ITEMS_LIST)?.toMutableList() ?: mutableListOf()
                 previouslyVisibleItemsList = state.getIntArray(INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST)?.toMutableList() ?: mutableListOf()
-                oldItemsList = state.getIntArray(INSTANCE_STATE_OLD_ITEMS_LIST)?.toMutableList() ?: mutableListOf()
+                oldItemsList = state.getIntArray(INSTANCE_STATE_OLD_ITEMS_LIST)?.toMutableList()
             }
         } else {
             super.onRestoreInstanceState(state)
@@ -162,8 +163,8 @@ open class ViewPortVerticalGridView @JvmOverloads constructor(
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     internal fun onDestroy() {
+        lifecycleOwner = null
         viewPortManager?.stopLib()
-        lifecycleOwner?.lifecycle?.removeObserver(this)
         removeOnChildViewHolderSelectedListener(childSelectedListener)
     }
 }

@@ -75,7 +75,7 @@ class ViewPortSampleNestedItemsAdapter(
             }
             horizontalRecyclerView.apply {
                 lifecycleOwner = lifecycle
-//                setHasFixedSize(true)
+                setHasFixedSize(true)
                 adapter = sampleItemsAdapter
             }
         }

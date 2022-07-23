@@ -134,10 +134,11 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
      */
     var lifecycleOwner: LifecycleOwner? = null
         set(value) {
+            field?.lifecycle?.removeObserver(this)
             field = value
             field?.lifecycle?.addObserver(this)
 
-            viewPortManager = ViewPortManager(firstAndLastVisibleItemsLiveData, field)
+            viewPortManager = ViewPortManager(firstAndLastVisibleItemsLiveData)
 
             field?.let {
                 viewPortManager?.viewedItemsLiveData?.observe(it, Observer { viewedItems ->
@@ -169,7 +170,7 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
                 INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST,
                 it.previouslyVisibleItemsList.toIntArray()
             )
-            myState.putIntArray(INSTANCE_STATE_OLD_ITEMS_LIST, it.oldItemsList.toIntArray())
+            myState.putIntArray(INSTANCE_STATE_OLD_ITEMS_LIST, it.oldItemsList?.toIntArray())
             myState.putFloat(INSTANCE_THRESHOLD_PROPORTION_VALUE, threshold.proportion)
         }
 
@@ -189,7 +190,6 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
                     state.getIntArray(INSTANCE_STATE_PREVIOUSLY_VISIBLE_ITEMS_LIST)?.toMutableList()
                         ?: mutableListOf()
                 oldItemsList = state.getIntArray(INSTANCE_STATE_OLD_ITEMS_LIST)?.toMutableList()
-                    ?: mutableListOf()
                 threshold = Threshold.fromProportionValue(
                     state.getFloat(
                         INSTANCE_THRESHOLD_PROPORTION_VALUE,
@@ -227,8 +227,8 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     internal fun onDestroy() {
+        lifecycleOwner = null
         viewPortManager?.stopLib()
-        lifecycleOwner?.lifecycle?.removeObserver(this)
         removeOnScrollListener(onScrollListener)
     }
 }

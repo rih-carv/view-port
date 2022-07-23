@@ -22,7 +22,7 @@ import com.github.globocom.viewport.commons.ViewPortManager.Companion.HEART_BEAT
  */
 class ViewPortManager(
     private val firstAndLastVisibleItemsLiveData: LiveData<Pair<Int, Int>>,
-    private val lifecycleOwner: LifecycleOwner?
+//    private val lifecycleOwner: LifecycleOwner?
 ) {
     private companion object {
         const val HEART_BEAT_TIME = 250L
@@ -30,7 +30,7 @@ class ViewPortManager(
 
     var currentVisibleItemsList = mutableListOf<Int>()
     var previouslyVisibleItemsList = mutableListOf<Int>()
-    var oldItemsList = mutableListOf<Int>()
+    var oldItemsList: MutableList<Int>? = null
 
     var isHearBeatStarted = false
     var isLibStarted = false
@@ -53,10 +53,11 @@ class ViewPortManager(
         ) {
             override fun onFinish() {}
             override fun onTick(millisUntilFinished: Long) {
+                updateFirstAndLastVisibleItemsObserver()
 
                 // Retrieves elements that continues visible.
                 val continueVisibleItemsList =
-                    oldItemsList.intersect(currentVisibleItemsList).toMutableList()
+                    oldItemsList.orEmpty().intersect(currentVisibleItemsList).toMutableList()
 
                 // Updates oldItemsList.
                 oldItemsList = currentVisibleItemsList
@@ -77,7 +78,9 @@ class ViewPortManager(
             }
         }
 
-    private val firstAndLastVisibleItemsObserver = Observer<Pair<Int, Int>> {
+//    private val firstAndLastVisibleItemsObserver = Observer<Pair<Int, Int>> {
+    private fun updateFirstAndLastVisibleItemsObserver() {
+        val it = firstAndLastVisibleItemsLiveData.value ?: return
         val firstItemPosition = it.first
         val lastItemPosition = it.second
 
@@ -87,7 +90,8 @@ class ViewPortManager(
         }.toMutableList()
 
         // Updates old items viewed.
-        if (oldItemsList.isEmpty()) {
+//        if (oldItemsList.isEmpty()) {
+        if (oldItemsList == null) {
             oldItemsList = currentVisibleItemsList
         }
     }
@@ -112,19 +116,19 @@ class ViewPortManager(
 
     fun pauseLib() {
         stopHeartBeat()
-        firstAndLastVisibleItemsLiveData.removeObserver(firstAndLastVisibleItemsObserver)
+//        firstAndLastVisibleItemsLiveData.removeObserver(firstAndLastVisibleItemsObserver)
     }
 
     fun resumeLib() {
         startHeartBeat()
-        lifecycleOwner?.let {
-            firstAndLastVisibleItemsLiveData.observe(it, firstAndLastVisibleItemsObserver)
-        }
+//        lifecycleOwner?.let {
+//            firstAndLastVisibleItemsLiveData.observe(it, firstAndLastVisibleItemsObserver)
+//        }
     }
 
     fun stopLib() {
         pauseLib()
-        oldItemsList.clear()
+        oldItemsList?.clear()
         currentVisibleItemsList.clear()
         previouslyVisibleItemsList.clear()
     }
