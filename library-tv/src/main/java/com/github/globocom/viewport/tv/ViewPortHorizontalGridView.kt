@@ -86,6 +86,8 @@ open class ViewPortHorizontalGridView @JvmOverloads constructor(
      */
     var lifecycleOwner: LifecycleOwner? = null
         set(value) {
+            if (field == value) return
+
             field = value
             field?.lifecycle?.addObserver(this)
 
