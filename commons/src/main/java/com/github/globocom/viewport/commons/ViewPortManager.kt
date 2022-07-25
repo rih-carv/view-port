@@ -1,6 +1,7 @@
 package com.github.globocom.viewport.commons
 
 import android.os.CountDownTimer
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -26,7 +27,9 @@ class ViewPortManager(
 ) {
     private companion object {
         const val HEART_BEAT_TIME = 250L
+        var lastId = 0
     }
+    private val id = lastId++
 
     var currentVisibleItemsList = mutableListOf<Int>()
     var previouslyVisibleItemsList = mutableListOf<Int>()
@@ -100,6 +103,7 @@ class ViewPortManager(
 
     private fun stopHeartBeat() {
         heartBeat.cancel()
+        Log.d("VPM", "$id - cancel")
         isHearBeatStarted = false
     }
 
@@ -107,6 +111,7 @@ class ViewPortManager(
         if (!isHearBeatStarted) {
             isHearBeatStarted = true
             heartBeat.start()
+            Log.d("VPM", "$id - start")
         }
     }
 

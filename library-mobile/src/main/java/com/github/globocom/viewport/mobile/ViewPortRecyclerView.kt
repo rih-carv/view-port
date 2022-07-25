@@ -134,9 +134,13 @@ open class ViewPortRecyclerView @JvmOverloads constructor(
      */
     var lifecycleOwner: LifecycleOwner? = null
         set(value) {
+            if (field == value) return
+
+            field?.lifecycle?.removeObserver(this)
             field = value
             field?.lifecycle?.addObserver(this)
 
+            viewPortManager?.stopLib()
             viewPortManager = ViewPortManager(firstAndLastVisibleItemsLiveData, field)
 
             field?.let {
